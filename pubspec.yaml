@@ -1,0 +1,11 @@
+name: dart_breakout
+version: "0.1.0"
+description: dart breakout clone because
+author: Harry Stern <harry.stern@rutgers.edu>
+homepage: https://github.com/boustrophedon/dart-breakout
+environment:
+  sdk: ">=1.2.0"
+dependencies:
+  browser: any
+  entity_component:
+    git: git://github.com/boustrophedon/entity-component-dart.git
