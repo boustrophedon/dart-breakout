@@ -1,4 +1,4 @@
-part of breakout;
+part of breakout_client;
 
 class TestSystem extends System {
   TestSystem(World world) : super(world) {
@@ -6,5 +6,6 @@ class TestSystem extends System {
   }
   void initialize() {
     print("hello");
+    world.send_event("SpawnEntity", {"type":"paddle"});
   }
 }
