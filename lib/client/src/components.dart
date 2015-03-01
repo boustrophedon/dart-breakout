@@ -23,5 +23,11 @@ class Paddle extends Component {
   int paddle_id;
   Paddle(this.paddle_id);
 }
+class Ball extends Component {
+  Ball();
+}
+class Collidable extends Component {
+  Collidable();
+}
 
-List<Type> component_types = [Position, Velocity, Size, Renderable, Paddle];
+List<Type> component_types = [Position, Velocity, Size, Renderable, Paddle, Ball, Collidable];

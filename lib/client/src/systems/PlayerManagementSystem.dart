@@ -19,6 +19,7 @@ class PlayerManagementSystem extends System {
     world.add_component(e, new Velocity(0.0,0.0));
     world.add_component(e, new Paddle(event['paddle_id']));
     world.add_component(e, new Size(event['size'][0], event['size'][1]));
+    world.add_component(e, new Collidable());
     world.add_to_world(e);
   }
   void handle_playerleave(Map event) {

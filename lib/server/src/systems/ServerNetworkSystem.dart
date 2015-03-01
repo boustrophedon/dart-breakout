@@ -1,7 +1,7 @@
 part of breakout_server;
 
 class ServerNetworkSystem extends System {
-  static final List<String> transmit = ["ServerPing", "NewPlayerCreated", "ServerPaddleUpdate", "PlayerLeft"];
+  static final List<String> transmit = ["ServerPing", "NewPlayerCreated", "ServerPaddleUpdate", "PlayerLeft", "NewBallCreated", "ServerBallUpdate", "BallDeath"];
 
   HashMap<int, WebSocket> clients;
   int client_id = 1;

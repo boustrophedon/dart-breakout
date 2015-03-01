@@ -21,6 +21,7 @@ class PlayerManagementSystem extends System {
     world.add_component(paddle, new Velocity(0.0,0.0));
     world.add_component(paddle, new Paddle(event['client_id']));
     world.add_component(paddle, new Size(80, 20));
+    world.add_component(paddle, new Collidable());
     world.add_to_world(paddle);
 
     client_player_map[event['client_id']] = paddle;
@@ -46,6 +47,9 @@ class PlayerManagementSystem extends System {
   }
 
   void handle_disconnect(Map event) {
+    if (client_player_map[event['client_id']] == null) {
+      return;
+    }
     world.send_event("PlayerLeft", {'player':client_player_map[event['client_id']]});
     world.remove_entity(client_player_map[event['client_id']]);
     client_player_map.remove(event['client_id']);

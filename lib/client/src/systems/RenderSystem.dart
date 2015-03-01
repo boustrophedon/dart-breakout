@@ -27,7 +27,7 @@ class RenderSystem extends System {
     // order of renderers specified here specifies draw order. first in first out -> last thing added gets drawn on top
     renderers['paddle'] = new PaddleRenderer(canvas, context, world.component_mappers);
     //renderers['brick'] = new BrickRenderer(canvas, context);
-    //renderers['ball'] = new BallRenderer(canvas, context);
+    renderers['ball'] = new BallRenderer(canvas, context, world.component_mappers);
   }
 
   void process() {
