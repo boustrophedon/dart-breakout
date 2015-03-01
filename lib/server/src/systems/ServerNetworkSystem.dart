@@ -53,6 +53,10 @@ class ServerNetworkSystem extends System {
       // this is insecure/could cause a crash
       // in general very little of the data being recieved over the network is checked for validity
       // and that is bad
+      if (transmit.contains(json['EVENT_TYPE'])) {
+        print('received event from client in server transmit list');
+        return;
+      }
       json['client_id'] = id;
       print(json);
       world.send_event(json['EVENT_TYPE'], json);
