@@ -1,14 +1,18 @@
 part of breakout_client;
 
 class PaddleRenderer extends Renderer {
-  PaddleRenderer(CanvasElement canv, CanvasRenderingContext2D ctx) : super(canv, ctx);
+  ComponentMapper<Position> pos_mapper;
+  ComponentMapper<Size> size_mapper;
+  PaddleRenderer(CanvasElement canv, CanvasRenderingContext2D ctx, Map mappers) : super(canv, ctx) {
+    pos_mapper = mappers[Position];
+    size_mapper = mappers[Size];
+  }
 
-  void render_entity(Entity e) {
-    Position pos = e.get_component(Position);
-    Renderable rend = e.get_component(Renderable);
-    Size size = e.get_component(Size);
+  void render_entity(int e) {
+    Position pos = pos_mapper.get_component(e);
+    Size size = size_mapper.get_component(e);
 
     context.fillStyle = '#FF0000';
-    context.fillRect(pos.x, pos.y, size.height,size.width); 
+    context.fillRect(pos.x, pos.y, size.width, size.height); 
   }
 }

@@ -9,7 +9,7 @@ void main() {
   CanvasElement canvas = querySelector('#area');
   // make the canvas the full size of the window
   canvas.height = 720;
-  canvas.width = 1280;
+  canvas.width = 720;
 
   w.globaldata['canvas'] = canvas;
 

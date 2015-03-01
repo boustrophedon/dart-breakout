@@ -7,9 +7,12 @@ class RenderSystem extends System {
 
   LinkedHashMap<String, Renderer> renderers;
 
+  ComponentMapper<Renderable> rend_mapper;
+
   RenderSystem(World world) : super(world) {
     renderers = new Map<String, Renderer>();
     components_wanted = new Set.from([Renderable,Position]);
+    rend_mapper = world.component_mappers[Renderable];
   }
 
   void set_context(CanvasElement canv) {
@@ -22,7 +25,7 @@ class RenderSystem extends System {
     set_context(world.globaldata['canvas']);
 
     // order of renderers specified here specifies draw order. first in first out -> last thing added gets drawn on top
-    renderers['paddle'] = new PaddleRenderer(canvas, context);
+    renderers['paddle'] = new PaddleRenderer(canvas, context, world.component_mappers);
     //renderers['brick'] = new BrickRenderer(canvas, context);
     //renderers['ball'] = new BallRenderer(canvas, context);
   }
@@ -32,23 +35,26 @@ class RenderSystem extends System {
   }
 
   void render_entities() {
-    context.clearRect(0,0,canvas.width, canvas.height);
+
+    //context.clearRect(0,0,canvas.width, canvas.height);
+    context.fillStyle = '#111111';
+    context.fillRect(0,0,canvas.width, canvas.height);
     for (Renderer r in renderers.values) {
       r.render_entities();
     }
   }
 
-  void process_entity(Entity e) {}
+  void process_entity(int e) {}
 
-  void process_new_entity(Entity entity) {
-    Renderable rend = entity.get_component(Renderable);
+  void process_new_entity(int entity) {
+    Renderable rend = rend_mapper.get_component(entity);
     if (renderers.containsKey(rend.type)) {
       renderers[rend.type].add_entity(entity);
     }
   }
 
-  void remove_entity(Entity entity) {
-    Renderable rend = entity.get_component(Renderable);
+  void remove_entity(int entity) {
+    Renderable rend = rend_mapper.get_component(entity);
     if (renderers.containsKey(rend.type)) {
       renderers[rend.type].remove_entity(entity);
     }

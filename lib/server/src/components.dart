@@ -1,4 +1,4 @@
-part of breakout_client;
+part of breakout_server;
 
 class Position extends Component {
   double x;
@@ -15,13 +15,9 @@ class Size extends Component {
   int height;
   Size(this.width, this.height);
 }
-class Renderable extends Component {
-  String type;
-  Renderable(this.type);
-}
 class Paddle extends Component {
   int paddle_id;
   Paddle(this.paddle_id);
 }
 
-List<Type> component_types = [Position, Velocity, Size, Renderable, Paddle];
+List<Type> component_types = [Position, Velocity, Size, Paddle];

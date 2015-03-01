@@ -5,7 +5,6 @@ class TestSystem extends System {
     components_wanted = null;
   }
   void initialize() {
-    print("hello");
-    world.send_event("SpawnEntity", {"type":"paddle"});
+    //world.send_event("CreateEntity", {"type":"paddle"});
   }
 }
