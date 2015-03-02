@@ -22,8 +22,13 @@ class Paddle extends Component {
 class Ball extends Component {
   Ball();
 }
+class Brick extends Component {
+  String color;
+  //Powerup powerup; // use enum
+  Brick(this.color);
+}
 class Collidable extends Component {
   Collidable();
 }
 
-List<Type> component_types = [Position, Velocity, Size, Paddle, Ball, Collidable];
+List<Type> component_types = [Position, Velocity, Size, Paddle, Ball, Brick, Collidable];

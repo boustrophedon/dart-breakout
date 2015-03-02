@@ -14,7 +14,7 @@ class BallManagementSystem extends System {
   void initialize() {
     spawn_new_ball();
 
-    world.subscribe_event("RequestNewPlayer", handle_newplayer); // not sure if this should be here or in playermanager
+    world.subscribe_event("RequestNewPlayer", handle_newplayer);
 
     world.subscribe_event("BallDeath", handle_balldeath);
   }

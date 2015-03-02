@@ -26,8 +26,12 @@ class Paddle extends Component {
 class Ball extends Component {
   Ball();
 }
+class Brick extends Component {
+  String color;
+  Brick(this.color);
+}
 class Collidable extends Component {
   Collidable();
 }
 
-List<Type> component_types = [Position, Velocity, Size, Renderable, Paddle, Ball, Collidable];
+List<Type> component_types = [Position, Velocity, Size, Renderable, Paddle, Ball, Brick, Collidable];

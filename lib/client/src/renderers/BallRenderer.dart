@@ -14,7 +14,6 @@ class BallRenderer extends Renderer {
 
     context.fillStyle = '#FFFFFF';
     context.beginPath();
-    print(size.width);
     context.arc(pos.x, pos.y, size.width, 0, 2*PI);
     context.fill();
   }

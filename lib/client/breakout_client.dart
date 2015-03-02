@@ -17,6 +17,7 @@ part 'src/systems/InputSystem.dart';
 part 'src/systems/EntitySpawnSystem.dart';
 part 'src/systems/PlayerManagementSystem.dart';
 part 'src/systems/BallManagementSystem.dart';
+part 'src/systems/BrickManagementSystem.dart';
 part 'src/systems/PaddleMoveSystem.dart';
 part 'src/systems/BallMoveSystem.dart';
 part 'src/systems/ClientNetworkSystem.dart';
@@ -24,6 +25,7 @@ part 'src/systems/ClientNetworkSystem.dart';
 part 'src/renderers/Renderer.dart';
 part 'src/renderers/PaddleRenderer.dart';
 part 'src/renderers/BallRenderer.dart';
+part 'src/renderers/BrickRenderer.dart';
 
 ClientWorld create_client_world() {
     ClientWorld world = new ClientWorld(component_types);
@@ -37,6 +39,7 @@ ClientWorld create_client_world() {
     world.register_system(new BallMoveSystem(world));
     world.register_system(new PlayerManagementSystem(world));
     world.register_system(new BallManagementSystem(world));
+    world.register_system(new BrickManagementSystem(world));
     //world.register_system(new TestSystem(world));
 
     return world;
