@@ -16,7 +16,6 @@ class BrickManagementSystem extends System {
       spawn_new_row();
     }
     world.subscribe_event("RequestNewPlayer", handle_newplayer);
-
     world.subscribe_event("BrickBreak", handle_brickbreak);
   }
 
@@ -25,7 +24,7 @@ class BrickManagementSystem extends System {
     world.add_component(brick, new Position(x,y));
     world.add_component(brick, new Brick('#0000FF'));
     world.add_component(brick, new Size(BRICK_WIDTH,BRICK_HEIGHT));
-    //world.add_component(brick, new Collidable());
+    world.add_component(brick, new Collidable());
 
     world.add_to_world(brick);
     world.send_event("NewBrickCreated", {'entity':brick, 'position':[x,y], 'size':[BRICK_WIDTH,BRICK_HEIGHT], 'color':'#0000FF'});
@@ -37,6 +36,7 @@ class BrickManagementSystem extends System {
     for (int e in entities) {
       Position pos = posmap.get_component(e);
       pos.y+=BRICK_HEIGHT+5;
+      world.send_event("ServerBrickUpdate", {'brick':e, 'position':[pos.x, pos.y], 'size':[BRICK_WIDTH, BRICK_HEIGHT], 'color':'#0000FF'});
     }
     for (int i = 0; i<area.right~/(BRICK_WIDTH+5); i++) {
       spawn_new_brick(5+i*(BRICK_WIDTH+5).toDouble(), 5.0);

@@ -19,9 +19,6 @@ class CollisionSystem extends System {
     if (world.entities[e].contains(Ball)) {
       do_ball_collision(e);
     }
-    //else if (world.entities[e].contains(Paddle)) {
-    //  do_paddle_collision(e);
-    //}
   }
   void do_ball_collision(int e) {
     Velocity vel = vel_mapper.get_component(e);
@@ -50,7 +47,17 @@ class CollisionSystem extends System {
     else {
       for (int other in entities) {
         if (e != other) {
-          bool collided = ball_collision(e, other);
+          bool collided = false;
+          // there really isn't any difference between these two kinds. should be merged
+          if (world.entities[other].contains(Paddle)) {
+            collided = ball_paddle_collision(e, other);
+          }
+          else if (world.entities[other].contains(Brick)) {
+            collided = ball_brick_collision(e, other);
+          }
+          //else if (world.entities[other].contains(Ball)) {
+          //  collided = ball_ball_collision(e, other);
+          //}
           if (collided) { break; }
         }
       }
@@ -58,18 +65,19 @@ class CollisionSystem extends System {
   }
 
   // bad names here and above
-  bool ball_collision(int ball, int other) {
+  bool ball_paddle_collision(int ball, int paddle) {
     Velocity ball_vel = vel_mapper.get_component(ball);
     Position ball_pos = pos_mapper.get_component(ball);
     Size ball_size = size_mapper.get_component(ball);
 
-    //Velocity other_vel = vel_mapper.get_component(other);
-    Position other_pos = pos_mapper.get_component(other);
-    Size other_size = size_mapper.get_component(other);
+    Position paddle_pos = pos_mapper.get_component(paddle);
+    //Velocity paddle_vel = vel_mapper.get_component(paddle);
+    Size paddle_size = size_mapper.get_component(paddle);
   
-    if (ball_pos.y+ball_size.height >= other_pos.y && ball_pos.y+ball_size.height <= other_pos.y+other_size.height && 
-        ball_pos.x >= other_pos.x && ball_pos.x <= other_pos.x+other_size.width) { // does not handle hitting the edge
-      ball_pos.y = other_pos.y-ball_size.height;
+    // bottom of ball hits top of paddle
+    if (ball_pos.y+ball_size.height >= paddle_pos.y && ball_pos.y+ball_size.height <= paddle_pos.y+paddle_size.height && 
+        ball_pos.x >= paddle_pos.x && ball_pos.x <= paddle_pos.x+paddle_size.width) { // does not handle hitting the edge
+      ball_pos.y = paddle_pos.y-ball_size.height;
       ball_vel.y = -ball_vel.y;
       return true;
     }
@@ -78,5 +86,32 @@ class CollisionSystem extends System {
     }
   } 
 
-  void do_paddle_collision(int e) { }
+  bool ball_brick_collision(int ball, int brick) {
+    Velocity ball_vel = vel_mapper.get_component(ball);
+    Position ball_pos = pos_mapper.get_component(ball);
+    Size ball_size = size_mapper.get_component(ball);
+
+    Position brick_pos = pos_mapper.get_component(brick);
+    Size brick_size = size_mapper.get_component(brick);
+
+    // top of ball hits bottom of brick
+    if (ball_pos.y-ball_size.height <= brick_pos.y+brick_size.height && ball_pos.y-ball_size.height >= brick_pos.y && 
+        ball_pos.x >= brick_pos.x && ball_pos.x <= brick_pos.x+brick_size.width) {
+      ball_pos.y = brick_pos.y+brick_size.height+ball_size.height;
+      ball_vel.y = -ball_vel.y;
+      world.send_event("BrickBreak", {'brick':brick});
+      return true;
+    }
+    // bottom of ball hits top of brick
+    else if (ball_pos.y+ball_size.height >= brick_pos.y && ball_pos.y+ball_size.height <= brick_pos.y+brick_size.height &&
+        ball_pos.x >= brick_pos.x && ball_pos.x <= brick_pos.x+brick_size.width) {
+      ball_pos.y = brick_pos.y-ball_size.height;
+      ball_vel.y = -ball_vel.y;
+      world.send_event("BrickBreak", {'brick':brick});
+      return true;
+    }  
+    else {
+      return false;
+    }
+  }
 }
