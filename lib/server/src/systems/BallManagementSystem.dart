@@ -23,7 +23,7 @@ class BallManagementSystem extends System {
     int ball = world.new_entity();
     double x = (rng.nextInt(area.width-40)+20).toDouble();
     double y = 200.0;
-    double theta = PI*rng.nextDouble();
+    double theta = 0.5*PI*rng.nextDouble()+0.25*PI;
     world.add_component(ball, new Position(x,y));
     world.add_component(ball, new Velocity(4*cos(theta), 4*sin(theta)));
     world.add_component(ball, new Ball());

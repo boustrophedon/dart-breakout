@@ -8,5 +8,6 @@ environment:
 dependencies:
   browser: any
   entity_component:
-    #git: git://github.com/boustrophedon/entity-component-dart.git
-    path: /home/hcs/code/dartlang/entity-component-dart/
+    git:
+      url: git://github.com/boustrophedon/entity-component-dart.git
+      ref: ng
