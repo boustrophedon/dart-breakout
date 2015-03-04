@@ -37,12 +37,12 @@ class PaddleMoveSystem extends System {
 
     List<double> newpos = event['position'];
     // can do fancier latency-based compensation later
-    if ((newpos[0]-pos.x).abs() > 32) { 
-      // basically arbitrary but actually since vel = 0.5 and dt = 16, it's
-      // saying if you move more than 4 frames without sending an update the move doesn't count
-      print('bad move x');
-      return;
-    }
+    //if ((newpos[0]-pos.x).abs() > 32) { 
+    //  // basically arbitrary but actually since vel = 0.5 and dt = 16, it's
+    //  // saying if you move more than 4 frames without sending an update the move doesn't count
+    //  print('bad move x');
+    //  return;
+    //}
     if (newpos[1] != 680.0) {
       print('bad move y');
       return;
