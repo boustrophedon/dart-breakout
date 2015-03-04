@@ -3,13 +3,13 @@ part of breakout_client;
 class BrickManagementSystem extends System {
   static final Rectangle area = const Rectangle(0,0,720,720);
 
-  ComponentMapper<Brick> brick_mapper;
+  ComponentMapper<Color> color_mapper;
   ComponentMapper<Position> pos_mapper;
   ComponentMapper<Size> size_mapper;
 
   BrickManagementSystem(World world) : super(world) {
     components_wanted = new Set.from([Brick,]);
-    brick_mapper = world.component_mappers[Brick];
+    color_mapper = world.component_mappers[Color];
     pos_mapper = world.component_mappers[Position];
     size_mapper = world.component_mappers[Size];
   }
@@ -22,8 +22,9 @@ class BrickManagementSystem extends System {
   void handle_newbrick(Map event) {
     int brick = event['entity'];
     world.add_component(brick, new Renderable("brick"));
+    world.add_component(brick, new Color(event['color']));
     world.add_component(brick, new Position(event['position'][0],event['position'][1]));
-    world.add_component(brick, new Brick(event['color']));
+    world.add_component(brick, new Brick());
     world.add_component(brick, new Size(event['size'][0],event['size'][1]));
     world.add_component(brick, new Collidable());
     world.add_to_world(brick);
@@ -34,11 +35,11 @@ class BrickManagementSystem extends System {
       return;
     }
     int e = event['brick'];
-    var brick = brick_mapper.get_component(e);
+    var color = color_mapper.get_component(e);
     var pos = pos_mapper.get_component(e);
     var size = size_mapper.get_component(e);
 
-    brick.color = event['color'];
+    color.color = event['color'];
     pos.x = event['position'][0];
     pos.y = event['position'][1];
     size.width = event['size'][0];

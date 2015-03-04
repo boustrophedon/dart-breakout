@@ -15,6 +15,7 @@ class PlayerManagementSystem extends System {
       world.tagged_entities['player'] = e;
     }
     world.add_component(e, new Renderable("paddle"));
+    world.add_component(e, new Color(event['color']));
     world.add_component(e, new Position(event['position'][0], event['position'][1]));
     world.add_component(e, new Velocity(0.0,0.0));
     world.add_component(e, new Paddle(event['paddle_id']));
