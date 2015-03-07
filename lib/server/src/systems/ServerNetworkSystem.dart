@@ -1,8 +1,6 @@
 part of breakout_server;
 
 class ServerNetworkSystem extends System {
-  static final List<String> transmit = ["ServerPing", "NewPlayerCreated", "ServerPaddleUpdate", "PlayerLeft", "NewBallCreated", "ServerBallUpdate", "BallDeath", "NewBrickCreated","ServerBrickUpdate", "BrickBreak"];
-
   HashMap<int, WebSocket> clients;
   int client_id = 1;
   ServerNetworkSystem(World world) : super(world) {
@@ -27,7 +25,7 @@ class ServerNetworkSystem extends System {
       });
     });
 
-    for (String event_type in transmit) {
+    for (String event_type in server_transmit) {
       world.subscribe_event(event_type, transmit_event);
     }
   }
@@ -53,7 +51,7 @@ class ServerNetworkSystem extends System {
       // this is insecure/could cause a crash
       // in general very little of the data being recieved over the network is checked for validity
       // and that is bad
-      if (transmit.contains(json['EVENT_TYPE'])) {
+      if (server_transmit.contains(json['EVENT_TYPE'])) {
         print('received event from client in server transmit list');
         return;
       }

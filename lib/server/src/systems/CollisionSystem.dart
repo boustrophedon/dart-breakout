@@ -35,7 +35,6 @@ class CollisionSystem extends System {
     }
     else if (pos.y+size.height > area.bottom) {
       pos.y = (area.bottom-size.height).toDouble();
-      //vel.y = -vel.y;
       vel.y = 0.0;
       vel.x = 0.0;
       world.send_event("BallDeath", {'ball':e});
@@ -48,7 +47,6 @@ class CollisionSystem extends System {
       for (int other in entities) {
         if (e != other) {
           bool collided = false;
-          // there really isn't any difference between these two kinds. should be merged
           if (world.entities[other].contains(Paddle)) {
             collided = ball_paddle_collision(e, other);
           }
@@ -79,6 +77,7 @@ class CollisionSystem extends System {
         ball_pos.x >= paddle_pos.x && ball_pos.x <= paddle_pos.x+paddle_size.width) { // does not handle hitting the edge
       ball_pos.y = paddle_pos.y-ball_size.height;
       ball_vel.y = -ball_vel.y;
+      //ball_vel.x = ball_vel.x*tan(ball_pos.x - paddle_pos.x + (paddle_size.width/2));
       return true;
     }
     else {

@@ -1,4 +1,4 @@
-part of breakout_client;
+part of breakout_common;
 
 class Position extends Component {
   double x;

@@ -6,10 +6,10 @@ import 'dart:collection';
 
 import 'dart:convert';
 
+import 'package:dart_breakout/common/breakout_common.dart';
+
 import 'package:entity_component/entity_component_client.dart';
 import 'package:entity_component/entity_component_common.dart';
-
-part 'src/components.dart';
 
 part 'src/systems/TestSystem.dart';
 part 'src/systems/RenderSystem.dart';

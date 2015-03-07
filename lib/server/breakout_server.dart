@@ -10,7 +10,7 @@ import 'dart:convert';
 import 'package:entity_component/entity_component_server.dart';
 import 'package:entity_component/entity_component_common.dart';
 
-part 'src/components.dart';
+import 'package:dart_breakout/common/breakout_common.dart';
 
 part 'src/systems/PlayerManagementSystem.dart';
 part 'src/systems/BallManagementSystem.dart';

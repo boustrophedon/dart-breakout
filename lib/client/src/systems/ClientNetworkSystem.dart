@@ -1,8 +1,6 @@
 part of breakout_client;
 
 class ClientNetworkSystem extends System {
-  static final List<String> transmit = ["RequestNewPlayer", "MoveLeft", "MoveRight", "StopLeft", "StopRight", "ClientPaddleUpdate"];
-
   String server = 'ws://localhost:5634/';
   WebSocket ws;
   ClientNetworkSystem(World world) : super(world) {
@@ -13,7 +11,7 @@ class ClientNetworkSystem extends System {
 
     init_websocket();
 
-    for (String event_type in transmit) {
+    for (String event_type in client_transmit) {
       world.subscribe_event(event_type, transmit_event);
     }
 
