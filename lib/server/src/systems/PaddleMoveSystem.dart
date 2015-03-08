@@ -43,10 +43,6 @@ class PaddleMoveSystem extends System {
     //  print('bad move x');
     //  return;
     //}
-    if (newpos[1] != 680.0) {
-      print('bad move y');
-      return;
-    }
     
     pos.x = check_bound(newpos[0], size.width, area.width);
     pos.y = check_bound(newpos[1], size.height, area.height);
