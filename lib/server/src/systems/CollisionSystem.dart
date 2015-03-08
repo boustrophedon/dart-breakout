@@ -92,6 +92,7 @@ class CollisionSystem extends System {
   }
 
   // bad names here and below
+  // there should also be a better way to reduce the amount of overlapping code, but whatever
   bool ball_paddle_collision(int ball, int paddle) {
     Velocity ball_vel = vel_mapper.get_component(ball);
     Position ball_pos = pos_mapper.get_component(ball);
@@ -108,7 +109,9 @@ class CollisionSystem extends System {
         ball_pos.y = intersect[1]-ball_size.height;
 
         ball_vel.y = -ball_vel.y;
-        //ball_vel.x = ball_vel.x*tan(ball_pos.x - paddle_pos.x + (paddle_size.width/2));
+
+        var displacement = (intersect[0] - (paddle_pos.x + paddle_size.width/2))/(paddle_size.width/2);
+        ball_vel.x = (ball_vel.x + 10*displacement).clamp(-5,5);
       }
       else if (intersect[0] == paddle_pos.x) {
         ball_pos.x = intersect[0]-ball_size.width;

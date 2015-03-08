@@ -31,8 +31,8 @@ class ServerNetworkSystem extends System {
   }
 
   void handle_web_socket(WebSocket socket) {
-    print('Client connected!');
     socket.add(JSON.encode({'EVENT_TYPE':"ConnectionAck", "client_id":client_id}));
+    print('Client $client_id connected!');
     socket.listen(do_client_receive_data(client_id),
       onDone: do_client_disconnect(client_id)
     );
@@ -56,7 +56,7 @@ class ServerNetworkSystem extends System {
         return;
       }
       json['client_id'] = id;
-      print(json);
+      //print(json);
       world.send_event(json['EVENT_TYPE'], json);
     }
     return receive_data;

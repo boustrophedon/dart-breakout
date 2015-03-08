@@ -25,7 +25,7 @@ class BallManagementSystem extends System {
     double y = 200.0;
     double theta = 0.5*PI*rng.nextDouble()+0.25*PI;
     world.add_component(ball, new Position(x,y));
-    world.add_component(ball, new Velocity(4*cos(theta), 4*sin(theta)));
+    world.add_component(ball, new Velocity(4*cos(theta), 6*sin(theta)));
     world.add_component(ball, new Ball());
     world.add_component(ball, new Size(BALL_SIZE,BALL_SIZE));
     world.add_component(ball, new Collidable());
