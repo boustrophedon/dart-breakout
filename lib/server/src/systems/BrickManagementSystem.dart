@@ -13,7 +13,7 @@ class BrickManagementSystem extends System {
 
   static final BRICK_COLOR = 'rgba(0, 0, 255, 1.0)';
 
-  BrickManagementSystem(World world) : super(world) {
+  BrickManagementSystem(BreakoutServerWorld world) : super(world) {
     components_wanted = new Set.from([Brick,]);
     
     posmap = world.component_mappers[Position];
@@ -67,7 +67,7 @@ class BrickManagementSystem extends System {
   void handle_brickbreak(Map event) {
     world.remove_entity(event['brick']);
     // should do something fancier
-    if (entities.length == 1 && world.globaldata['Clients'].isNotEmpty) { // this is the last brick
+    if (entities.length == 1 && world.clients.isNotEmpty) { // this is the last brick
       new Future.delayed(const Duration(seconds: 3), () {
         int rows = rng.nextInt(5)+1;
         for (int i = 0; i<rows; i++) {

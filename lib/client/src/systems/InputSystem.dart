@@ -8,10 +8,10 @@ Map control_map = {
 class InputSystem extends System {
   CanvasElement canvas;
 
-  InputSystem(World world) : super(world) { components_wanted = null; }
+  InputSystem(BreakoutClientWorld world) : super(world) { components_wanted = null; }
 
   void initialize() {
-    canvas = world.globaldata['canvas'];
+    canvas = world.canvas;
 
     window.onKeyDown.listen(register_keydown);
     window.onKeyUp.listen(register_keyup);

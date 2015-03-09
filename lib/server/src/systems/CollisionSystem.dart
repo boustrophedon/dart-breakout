@@ -7,7 +7,7 @@ class CollisionSystem extends System {
   ComponentMapper<Velocity> vel_mapper;
   ComponentMapper<Size> size_mapper;
 
-  CollisionSystem(World world) : super(world) {
+  CollisionSystem(BreakoutServerWorld world) : super(world) {
     components_wanted = new Set.from([Collidable,Position,Size]);
     pos_mapper = world.component_mappers[Position];
     vel_mapper = world.component_mappers[Velocity];

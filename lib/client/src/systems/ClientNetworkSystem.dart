@@ -3,7 +3,7 @@ part of breakout_client;
 class ClientNetworkSystem extends System {
   String server = 'ws://localhost:5634/';
   WebSocket ws;
-  ClientNetworkSystem(World world) : super(world) {
+  ClientNetworkSystem(BreakoutClientWorld world) : super(world) {
     components_wanted = null;
   }
   // network code adapted from http://jamesslocum.com/post/74731227156
@@ -31,7 +31,7 @@ class ClientNetworkSystem extends System {
   }
 
   void handle_ack(Map event) {
-    world.globaldata['client_id'] = event['client_id'];
+    world.client_id = event['client_id'];
     print("got ack");
   }
 

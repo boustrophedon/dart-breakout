@@ -3,9 +3,9 @@ part of breakout_server;
 class ServerNetworkSystem extends System {
   HashMap<int, WebSocket> clients;
   int client_id = 1;
-  ServerNetworkSystem(World world) : super(world) {
+  ServerNetworkSystem(BreakoutServerWorld world) : super(world) {
     clients = new HashMap<int, WebSocket>();
-    world.globaldata['Clients'] = clients;
+    world.clients = clients;
     components_wanted = null;
   }
 

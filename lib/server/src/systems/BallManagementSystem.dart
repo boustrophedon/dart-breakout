@@ -8,7 +8,7 @@ class BallManagementSystem extends System {
   Random rng = new Random();
 
   bool spawning = false;
-  BallManagementSystem(World world) : super(world) {
+  BallManagementSystem(BreakoutServerWorld world) : super(world) {
     components_wanted = new Set.from([Ball,]);
   }
   void initialize() {
@@ -54,7 +54,7 @@ class BallManagementSystem extends System {
 
   void handle_balldeath(Map event) {
     world.remove_entity(event['ball']);
-    if (entities.length == 1 && world.globaldata['Clients'].isNotEmpty) { // this is the last ball
+    if (entities.length == 1 && world.clients.isNotEmpty) { // this is the last ball
       spawning = true;
       new Future.delayed(const Duration(seconds: 3), () {
         spawn_new_ball();  

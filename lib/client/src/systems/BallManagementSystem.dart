@@ -3,7 +3,7 @@ part of breakout_client;
 class BallManagementSystem extends System {
   static final Rectangle area = const Rectangle(0,0,720,720);
 
-  BallManagementSystem(World world) : super(world) {
+  BallManagementSystem(BreakoutClientWorld world) : super(world) {
     components_wanted = new Set.from([Ball,]);
   }
   void initialize() {

@@ -1,7 +1,7 @@
 part of breakout_server;
 
 class ServerNetworkSystem extends System {
-  ServerNetworkSystem(World world) : super(world) {
+  ServerNetworkSystem(BreakoutServerWorld world) : super(world) {
     components_wanted = null;
   }
 

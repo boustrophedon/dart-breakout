@@ -2,7 +2,7 @@ part of breakout_client;
 
 class EntitySpawnSystem extends System {
   Map <String, Function> spawn_map;
-  EntitySpawnSystem(World world) : super(world) {
+  EntitySpawnSystem(BreakoutClientWorld world) : super(world) {
     components_wanted = null;
 
     spawn_map = new Map<String,Function>();

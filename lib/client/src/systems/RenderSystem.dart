@@ -9,7 +9,7 @@ class RenderSystem extends System {
 
   ComponentMapper<Renderable> rend_mapper;
 
-  RenderSystem(World world) : super(world) {
+  RenderSystem(BreakoutClientWorld world) : super(world) {
     renderers = new Map<String, Renderer>();
     components_wanted = new Set.from([Renderable,Position]);
     rend_mapper = world.component_mappers[Renderable];
@@ -22,7 +22,7 @@ class RenderSystem extends System {
   }
 
   void initialize() {
-    set_context(world.globaldata['canvas']);
+    set_context(world.canvas);
 
     // order of renderers specified here specifies draw order. first in first out -> last thing added gets drawn on top
     renderers['paddle'] = new PaddleRenderer(canvas, context, world.component_mappers);

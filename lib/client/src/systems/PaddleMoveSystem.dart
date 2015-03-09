@@ -7,14 +7,14 @@ class PaddleMoveSystem extends System {
   ComponentMapper<Velocity> vel_mapper;
   ComponentMapper<Size> size_mapper;
 
-  PaddleMoveSystem(World world) : super(world) {
+  PaddleMoveSystem(BreakoutClientWorld world) : super(world) {
     components_wanted = new Set.from([Paddle,Position,Velocity]);
     pos_mapper = world.component_mappers[Position];
     vel_mapper = world.component_mappers[Velocity];
     size_mapper = world.component_mappers[Size];
   }
   void initialize() {
-    canvas = world.globaldata["canvas"];
+    canvas = world.canvas;
     world.subscribe_event("MoveLeft", move_left);
     world.subscribe_event("MoveRight", move_right);
     world.subscribe_event("StopLeft", stop_left);

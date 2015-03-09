@@ -27,8 +27,14 @@ part 'src/renderers/PaddleRenderer.dart';
 part 'src/renderers/BallRenderer.dart';
 part 'src/renderers/BrickRenderer.dart';
 
-ClientWorld create_client_world() {
-    ClientWorld world = new ClientWorld(component_types);
+class BreakoutClientWorld extends ClientWorld {
+  CanvasElement canvas;
+  int client_id = -1;
+  BreakoutClientWorld() : super(component_types) {}
+}
+
+BreakoutClientWorld create_client_world() {
+    ClientWorld world = new BreakoutClientWorld();
 
     // register systems
     //world.register_system(new EntitySpawnSystem(world));

@@ -7,7 +7,7 @@ class BallMoveSystem extends System {
   ComponentMapper<Velocity> vel_mapper;
   ComponentMapper<Size> size_mapper;
 
-  BallMoveSystem(World world) : super(world) {
+  BallMoveSystem(BreakoutServerWorld world) : super(world) {
     components_wanted = new Set.from([Ball,Position,Velocity]);
     pos_mapper = world.component_mappers[Position];
     vel_mapper = world.component_mappers[Velocity];

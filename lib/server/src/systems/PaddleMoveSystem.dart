@@ -8,7 +8,7 @@ class PaddleMoveSystem extends System {
   ComponentMapper<Size> size_mapper;
   ComponentMapper<Paddle> paddle_mapper;
 
-  PaddleMoveSystem(World world) : super(world) {
+  PaddleMoveSystem(BreakoutServerWorld world) : super(world) {
     components_wanted = new Set.from([Paddle,Position,Velocity]);
     pos_mapper = world.component_mappers[Position];
     vel_mapper = world.component_mappers[Velocity];

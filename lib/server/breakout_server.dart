@@ -20,8 +20,13 @@ part 'src/systems/BallMoveSystem.dart';
 part 'src/systems/CollisionSystem.dart';
 part 'src/systems/ServerNetworkSystem.dart';
 
+class BreakoutServerWorld extends ServerWorld {
+  Map<int, WebSocket> clients;
+  BreakoutServerWorld() : super(component_types) {}
+}
+
 ServerWorld create_server_world() {
-    ServerWorld world = new ServerWorld(component_types);
+    ServerWorld world = new BreakoutServerWorld();
 
     // register systems
     world.register_system(new ServerNetworkSystem(world));

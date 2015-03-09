@@ -12,7 +12,7 @@ class PlayerManagementSystem extends System {
   ComponentMapper<Color> colormap;
   ComponentMapper<Paddle> paddlemap;
 
-  PlayerManagementSystem(World world) : super(world) {
+  PlayerManagementSystem(BreakoutServerWorld world) : super(world) {
     components_wanted = new Set.from([Paddle,]);
     client_player_map = new Map<int, int>();
 

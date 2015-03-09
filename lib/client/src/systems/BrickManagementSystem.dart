@@ -7,7 +7,7 @@ class BrickManagementSystem extends System {
   ComponentMapper<Position> pos_mapper;
   ComponentMapper<Size> size_mapper;
 
-  BrickManagementSystem(World world) : super(world) {
+  BrickManagementSystem(BreakoutClientWorld world) : super(world) {
     components_wanted = new Set.from([Brick,]);
     color_mapper = world.component_mappers[Color];
     pos_mapper = world.component_mappers[Position];

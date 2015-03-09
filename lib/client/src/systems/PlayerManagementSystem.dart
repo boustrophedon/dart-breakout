@@ -1,7 +1,7 @@
 part of breakout_client;
 
 class PlayerManagementSystem extends System {
-  PlayerManagementSystem(World world) : super(world) {
+  PlayerManagementSystem(BreakoutClientWorld world) : super(world) {
     components_wanted = new Set.from([Paddle,]);
   }
   void initialize() {
@@ -11,7 +11,7 @@ class PlayerManagementSystem extends System {
 
   void handle_newplayer(Map event) {
     int e = event['entity'];
-    if (event['paddle_id'] == world.globaldata['client_id']) {
+    if (event['paddle_id'] == world.client_id) {
       world.tagged_entities['player'] = e;
     }
     world.add_component(e, new Renderable("paddle"));
