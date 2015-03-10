@@ -25,13 +25,17 @@ class CollisionSystem extends System {
     Position pos = pos_mapper.get_component(e);
     Size size = size_mapper.get_component(e);
 
+    // the problem with bounce events being emitted on the server
+    // is that the sounds will lag. this is one of the reasons why client-side prediction is important
     if (pos.x-size.width < 0) {
       pos.x = 0.0+size.width;
       vel.x = -vel.x;
+      world.send_event("WallBounce", {});
     }
     else if (pos.x+size.width > area.right) {
       pos.x = (area.right-size.width).toDouble();
       vel.x = -vel.x;
+      world.send_event("WallBounce", {});
     }
     else if (pos.y+size.height > area.bottom) {
       pos.y = (area.bottom-size.height).toDouble();
@@ -42,6 +46,7 @@ class CollisionSystem extends System {
     else if (pos.y-size.height < 0) {
       pos.y = 0.0+size.height;
       vel.y = -vel.y;
+      world.send_event("WallBounce", {});
     }
     else {
       for (int other in entities) {
@@ -49,14 +54,23 @@ class CollisionSystem extends System {
           bool collided = false;
           if (world.entities[other].contains(Paddle)) {
             collided = ball_paddle_collision(e, other);
+            if (collided == true) {
+              world.send_event("PaddleBounce", {'paddle':other});
+              break;
+            }
           }
           else if (world.entities[other].contains(Brick)) {
             collided = ball_brick_collision(e, other);
+            if (collided == true) {
+              world.send_event("BrickBounce", {'brick':other});
+              // maybe slightly redundant, but perhaps i'll have bricks that take multiple hits to break in the future
+              // currently the code just emits a break event when a brick gets hit though...
+              break;
+            }
           }
           //else if (world.entities[other].contains(Ball)) {
           //  collided = ball_ball_collision(e, other);
           //}
-          if (collided) { break; }
         }
       }
     }
@@ -111,7 +125,7 @@ class CollisionSystem extends System {
         ball_vel.y = -ball_vel.y;
 
         var displacement = (intersect[0] - (paddle_pos.x + paddle_size.width/2))/(paddle_size.width/2);
-        ball_vel.x = (ball_vel.x + 10*displacement).clamp(-5,5);
+        ball_vel.x = (ball_vel.x + 10*displacement).clamp(-5.0,5.0);
       }
       else if (intersect[0] == paddle_pos.x) {
         ball_pos.x = intersect[0]-ball_size.width;
