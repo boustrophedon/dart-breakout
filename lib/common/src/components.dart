@@ -27,7 +27,13 @@ class Ball extends Component {
   Ball();
 }
 class Brick extends Component {
-  Brick();
+  String powerup = null;
+  Brick({this.powerup});
+}
+class PowerUp extends Component {
+  static const List<String> types = const ['ShrinkBall', 'EnlargeBall', 'ShrinkPaddle', 'EnlargePaddle', 'ExtraBall'];
+  String powerup;
+  PowerUp(this.powerup);
 }
 class Color extends Component {
   String color;
@@ -37,4 +43,4 @@ class Collidable extends Component {
   Collidable();
 }
 
-List<Type> component_types = [Position, Velocity, Size, Renderable, Paddle, Ball, Brick, Collidable, Color];
+List<Type> component_types = [Position, Velocity, Size, Renderable, Paddle, Ball, Brick, Collidable, Color, PowerUp];

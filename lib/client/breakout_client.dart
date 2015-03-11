@@ -18,14 +18,17 @@ part 'src/systems/EntitySpawnSystem.dart';
 part 'src/systems/PlayerManagementSystem.dart';
 part 'src/systems/BallManagementSystem.dart';
 part 'src/systems/BrickManagementSystem.dart';
+part 'src/systems/PowerUpManagementSystem.dart';
 part 'src/systems/PaddleMoveSystem.dart';
 part 'src/systems/BallMoveSystem.dart';
 part 'src/systems/ClientNetworkSystem.dart';
 
 part 'src/renderers/Renderer.dart';
+part 'src/renderers/RectRenderer.dart';
 part 'src/renderers/PaddleRenderer.dart';
 part 'src/renderers/BallRenderer.dart';
 part 'src/renderers/BrickRenderer.dart';
+part 'src/renderers/PowerUpRenderer.dart';
 
 class BreakoutClientWorld extends ClientWorld {
   CanvasElement canvas;
@@ -46,6 +49,7 @@ BreakoutClientWorld create_client_world() {
     world.register_system(new PlayerManagementSystem(world));
     world.register_system(new BallManagementSystem(world));
     world.register_system(new BrickManagementSystem(world));
+    world.register_system(new PowerUpManagementSystem(world));
     //world.register_system(new TestSystem(world));
 
     return world;

@@ -19,6 +19,9 @@ class CollisionSystem extends System {
     if (world.entities[e].contains(Ball)) {
       do_ball_collision(e);
     }
+    else if (world.entities[e].contains(PowerUp)) {
+      do_powerup_collision(e);
+    }
   }
   void do_ball_collision(int e) {
     Velocity vel = vel_mapper.get_component(e);
@@ -193,4 +196,51 @@ class CollisionSystem extends System {
       return false;
     }
   }
+
+  void do_powerup_collision(int e) {
+    Position pos = pos_mapper.get_component(e);
+    Size size = size_mapper.get_component(e);
+    if (pos.y+size.height > area.bottom) {
+      world.send_event("PowerUpCollision",{'powerup':e});
+    }
+    else {
+      List<int> colliders = new List<int>();
+      for (int other in entities) {
+        if (world.entities[other].contains(Paddle)) {
+          bool result = aa_rect_rect_collision(e, other);
+          if (result != false) {
+            colliders.add(other);
+          }
+        }
+      }
+      for (int paddle in colliders) {
+        world.send_event("PowerUpCollision", {'powerup':e, 'paddle':paddle});
+      }
+      if (colliders.isNotEmpty) {
+        world.send_event("PowerUpDeath", {'powerup':e});
+      }
+    }
+  }
+
+  // in this case we don't need to know where the collision takes place
+  // the names are kind of misleading though, since they're both aa_something_collision
+  bool aa_rect_rect_collision(int rect1, int rect2) {
+    Position pos1 = pos_mapper.get_component(rect1);
+    Position pos2 = pos_mapper.get_component(rect2);
+
+    Size size1 = size_mapper.get_component(rect1);
+    Size size2 = size_mapper.get_component(rect2);
+
+    if (range_overlap(pos1.x, pos1.x+size1.width, pos2.x, pos2.x+size2.width) &&
+        range_overlap(pos1.y, pos1.y+size1.height, pos2.y, pos2.y+size2.height)) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+}
+// aa rectangle overlap simplification from http://codereview.stackexchange.com/a/31529
+bool range_overlap(num min1, num max1, num min2, num max2) {
+  return ((min1 <= max2) && (min2 <= max1));
 }

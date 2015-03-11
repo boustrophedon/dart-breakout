@@ -11,7 +11,9 @@ class BrickManagementSystem extends System {
   int BRICK_WIDTH = 60;
   int BRICK_HEIGHT = 20;
 
-  static final BRICK_COLOR = 'rgba(0, 0, 255, 1.0)';
+  static const double POWERUP_PROBABILITY = 0.25;
+
+  static const String BRICK_COLOR = 'rgba(0, 0, 255, 1.0)';
 
   BrickManagementSystem(BreakoutServerWorld world) : super(world) {
     components_wanted = new Set.from([Brick,]);
@@ -31,9 +33,16 @@ class BrickManagementSystem extends System {
     int brick = world.new_entity();
     world.add_component(brick, new Position(x,y));
     world.add_component(brick, new Color(BRICK_COLOR));
-    world.add_component(brick, new Brick());
     world.add_component(brick, new Size(BRICK_WIDTH,BRICK_HEIGHT));
     world.add_component(brick, new Collidable());
+
+    if (rng.nextDouble() <= POWERUP_PROBABILITY) {
+      String ptype = PowerUp.types[rng.nextInt(PowerUp.types.length)];
+      world.add_component(brick, new Brick(powerup: ptype));
+    }
+    else {
+      world.add_component(brick, new Brick());
+    }
 
     world.add_to_world(brick);
     world.send_event("NewBrickCreated", {'entity':brick, 'position':[x,y], 'size':[BRICK_WIDTH,BRICK_HEIGHT], 'color':BRICK_COLOR});
@@ -65,7 +74,15 @@ class BrickManagementSystem extends System {
   } 
 
   void handle_brickbreak(Map event) {
-    world.remove_entity(event['brick']);
+    int brick = event['brick'];
+    var brick_c = world.component_mappers[Brick].get_component(brick);
+    if (brick_c.powerup != null) {
+      var pos = posmap.get_component(brick);
+      world.send_event('DropPowerUp', {'position':[pos.x, pos.y], 'powerup':brick_c.powerup});
+    }
+
+    world.remove_entity(brick);
+
     // should do something fancier
     if (entities.length == 1 && world.clients.isNotEmpty) { // this is the last brick
       new Future.delayed(const Duration(seconds: 3), () {

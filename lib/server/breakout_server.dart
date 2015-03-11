@@ -15,6 +15,7 @@ import 'package:dart_breakout/common/breakout_common.dart';
 part 'src/systems/PlayerManagementSystem.dart';
 part 'src/systems/BallManagementSystem.dart';
 part 'src/systems/BrickManagementSystem.dart';
+part 'src/systems/PowerUpManagementSystem.dart';
 part 'src/systems/PaddleMoveSystem.dart';
 part 'src/systems/VelocityMoveSystem.dart';
 part 'src/systems/CollisionSystem.dart';
@@ -33,6 +34,7 @@ ServerWorld create_server_world() {
     world.register_system(new PlayerManagementSystem(world));
     world.register_system(new BallManagementSystem(world));
     world.register_system(new BrickManagementSystem(world));
+    world.register_system(new PowerUpManagementSystem(world));
     world.register_system(new PaddleMoveSystem(world));
     world.register_system(new VelocityMoveSystem(world));
     world.register_system(new CollisionSystem(world));

@@ -28,6 +28,7 @@ class RenderSystem extends System {
     renderers['paddle'] = new PaddleRenderer(canvas, context, world.component_mappers);
     renderers['brick'] = new BrickRenderer(canvas, context, world.component_mappers);
     renderers['ball'] = new BallRenderer(canvas, context, world.component_mappers);
+    renderers['powerup'] = new PowerUpRenderer(canvas, context, world.component_mappers);
   }
 
   void process() {

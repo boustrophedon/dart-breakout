@@ -30,9 +30,9 @@ class VelocityMoveSystem extends System {
     if (world.entities[e].contains(Ball)) {
       world.send_event("ServerBallUpdate", {'ball':e, 'position':[pos.x,pos.y], 'velocity':[vel.x, vel.y]});
     }
-    //else if (world.entities[e].contains(Powerup)) {
-    //  world.send_event("ServerPowerupUpdate", {'powerup':e, 'position':[pos.x, pos.y], 'velocity':[vel.x, vel.y]});
-    //}
+    else if (world.entities[e].contains(PowerUp)) {
+      world.send_event("ServerPowerUpUpdate", {'powerup':e, 'position':[pos.x, pos.y], 'velocity':[vel.x, vel.y]});
+    }
     else {}
   }
 }
