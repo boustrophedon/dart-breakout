@@ -32,7 +32,7 @@ class PaddleMoveSystem extends System {
     pos.x = check_bound(newpos[0], size.width, area.width);
     pos.y = check_bound(newpos[1], size.height, area.height);
 
-    world.send_event("ServerPaddleUpdate", {'entity':e, 'position':[pos.x, pos.y]});
+    world.send_event("ServerPaddleUpdate", {'entity':e, 'position':[pos.x, pos.y], 'size':[size.width, size.height]});
   }
   double check_bound(double left, int size, num smax) {
     if (left < 0) {

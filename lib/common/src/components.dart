@@ -21,7 +21,10 @@ class Renderable extends Component {
 }
 class Paddle extends Component {
   int paddle_id;
-  Paddle(this.paddle_id);
+  Set<String> powerups;
+  Paddle(this.paddle_id) { 
+    powerups = new Set<String>();
+  }
 }
 class Ball extends Component {
   Ball();

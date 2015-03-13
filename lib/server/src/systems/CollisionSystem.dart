@@ -58,7 +58,7 @@ class CollisionSystem extends System {
           if (world.entities[other].contains(Paddle)) {
             collided = ball_paddle_collision(e, other);
             if (collided == true) {
-              world.send_event("PaddleBounce", {'paddle':other});
+              world.send_event("PaddleBounce", {'paddle':other, 'ball':e});
               break;
             }
           }
@@ -201,7 +201,7 @@ class CollisionSystem extends System {
     Position pos = pos_mapper.get_component(e);
     Size size = size_mapper.get_component(e);
     if (pos.y+size.height > area.bottom) {
-      world.send_event("PowerUpCollision",{'powerup':e});
+      world.send_event("PowerUpDeath",{'powerup':e});
     }
     else {
       List<int> colliders = new List<int>();

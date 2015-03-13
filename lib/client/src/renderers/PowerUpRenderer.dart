@@ -26,7 +26,7 @@ class PowerUpRenderer extends Renderer {
     Color color = color_map.get_component(e);
 
     context.fillStyle = color.color;
-    draw_rounded_rect(pos.x, pos.y, size.width, size.height, 15);
+    draw_rounded_rect(pos.x, pos.y, size.width, size.height, 5);
     context.fill();
   }
 }

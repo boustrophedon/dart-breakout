@@ -7,16 +7,29 @@ class BallManagementSystem extends System {
 
   Random rng = new Random();
 
+  ComponentMapper<Position> posmap;
+  ComponentMapper<Velocity> velmap;
+  ComponentMapper<Size> sizemap;
+
   bool spawning = false;
   BallManagementSystem(BreakoutServerWorld world) : super(world) {
     components_wanted = new Set.from([Ball,]);
+    
+    posmap = world.component_mappers[Position];
+    velmap = world.component_mappers[Velocity];
+    sizemap = world.component_mappers[Size];
   }
   void initialize() {
     spawn_new_ball();
 
     world.subscribe_event("RequestNewPlayer", handle_newplayer);
 
+    world.subscribe_event("RequestNewBall", handle_newball);
     world.subscribe_event("BallDeath", handle_balldeath);
+  }
+
+  void handle_newball(Map event) {
+    spawn_new_ball(); // ideally spawn it where the paddle is, but who cares
   }
 
   void spawn_new_ball() {
@@ -35,16 +48,15 @@ class BallManagementSystem extends System {
   }
 
   void handle_newplayer(Map event) {
-    var posmap = world.component_mappers[Position];
-    var velmap = world.component_mappers[Velocity];
     for (int e in entities) {
       var pos = posmap.get_component(e);
       var vel = velmap.get_component(e);
+      var size = sizemap.get_component(e);
       world.send_event("NewBallCreated", {'Clients':[event['client_id'],],
         'entity':e,
         'position':[pos.x, pos.y],
         'velocity':[vel.x, vel.y],
-        'size':[BALL_SIZE,BALL_SIZE]}
+        'size':[size.width,size.height]}
       );
     }
     if (entities.isEmpty && !spawning) {

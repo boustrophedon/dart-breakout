@@ -25,11 +25,19 @@ class BallMoveSystem extends System {
     }
     Position pos = pos_mapper.get_component(ball);
     Velocity vel = vel_mapper.get_component(ball);
-
-    pos.x = event['position'][0];
-    pos.y = event['position'][1];
-
-    vel.x = event['velocity'][0];
-    vel.y = event['velocity'][1];
+    Size size = size_mapper.get_component(ball);
+    if (event.containsKey('position')) {
+      pos.x = event['position'][0];
+      pos.y = event['position'][1];
+    }
+    if (event.containsKey('velocity')) {
+      vel.x = event['velocity'][0];
+      vel.y = event['velocity'][1];
+    }
+    // this shouldn't really be here but oh well
+    if (event.containsKey('size')) {
+      size.width = event['size'][0];
+      size.height = event['size'][1];
+    }
   }
 }

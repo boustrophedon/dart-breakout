@@ -24,15 +24,23 @@ class PaddleMoveSystem extends System {
   }
 
   void handle_update(Map event) {
+    int paddle = event['entity'];
+    if (!entities.contains(paddle)) {
+      return;
+    }
+    if (event.containsKey('size')) {
+      Size size = size_mapper.get_component(paddle);
+      size.width = event['size'][0];
+      size.height = event['size'][1];
+    }
     if (event['entity'] == world.tagged_entities['player']) {
       return;
     }
-    if (!entities.contains(event['entity'])) {
-      return;
+    if (event.containsKey('position')) {
+      Position pos = pos_mapper.get_component(paddle);
+      pos.x = event['position'][0];
+      pos.y = event['position'][1];
     }
-    Position pos = pos_mapper.get_component(event['entity']);
-    pos.x = event['position'][0];
-    pos.y = event['position'][1];
   }
 
   void move_left(Map event) {

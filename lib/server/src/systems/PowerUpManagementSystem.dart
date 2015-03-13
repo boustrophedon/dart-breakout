@@ -13,6 +13,7 @@ class PowerUpManagementSystem extends System {
     components_wanted = new Set.from([PowerUp,]);
 
     posmap = world.component_mappers[Position];
+    velmap = world.component_mappers[Velocity];
     powermap = world.component_mappers[PowerUp];
   }
   void initialize() {
@@ -58,15 +59,12 @@ class PowerUpManagementSystem extends System {
     int paddle = event['paddle'];
     if (paddle == null) {}
     else {
-      do_powerup(powerup, paddle);
+      world.component_mappers[Paddle].get_component(paddle).powerups.add(powermap.get_component(powerup).powerup);
     }
+    world.remove_entity(event['powerup']);
   }
 
   void handle_death(Map event) {
     world.remove_entity(event['powerup']);
-  }
-  void do_powerup(int powerup, int paddle) {
-    PowerUp power = powermap.get_component(powerup);
-
   }
 }
