@@ -1,6 +1,7 @@
 part of breakout_client;
 
 class ClientNetworkSystem extends System {
+  //String server = 'ws://104.236.127.223:5634/';
   String server = 'ws://localhost:5634/';
   WebSocket ws;
   ClientNetworkSystem(BreakoutClientWorld world) : super(world) {

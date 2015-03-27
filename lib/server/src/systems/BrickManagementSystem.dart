@@ -11,7 +11,7 @@ class BrickManagementSystem extends System {
   int BRICK_WIDTH = 60;
   int BRICK_HEIGHT = 20;
 
-  static const double POWERUP_PROBABILITY = 0.25;
+  static const double POWERUP_PROBABILITY = 0.4;
 
   static const String BRICK_COLOR = 'rgba(0, 0, 255, 1.0)';
 

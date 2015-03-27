@@ -44,7 +44,7 @@ class BallManagementSystem extends System {
     world.add_component(ball, new Collidable());
 
     world.add_to_world(ball);
-    world.send_event("NewBallCreated", {'entity':ball, 'position':[x,y], 'velocity':[4*cos(theta), 4*sin(theta)], 'size':[BALL_SIZE,BALL_SIZE]});
+    world.send_event("NewBallCreated", {'entity':ball, 'position':[x,y], 'velocity':[4*cos(theta), 6*sin(theta)], 'size':[BALL_SIZE,BALL_SIZE]});
   }
 
   void handle_newplayer(Map event) {
@@ -59,7 +59,7 @@ class BallManagementSystem extends System {
         'size':[size.width,size.height]}
       );
     }
-    if (entities.isEmpty && !spawning) {
+    if (entities.length < world.clients.length && !spawning) {
       spawn_new_ball();
     }
   } 
@@ -69,7 +69,10 @@ class BallManagementSystem extends System {
     if (entities.length == 1 && world.clients.isNotEmpty) { // this is the last ball
       spawning = true;
       new Future.delayed(const Duration(seconds: 3), () {
-        spawn_new_ball();  
+        var to_spawn = world.clients.length;
+        while (entities.length < to_spawn) {
+          spawn_new_ball();
+        }
         spawning = false;
       });
     }
