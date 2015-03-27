@@ -38,7 +38,7 @@ class ClientNetworkSystem extends System {
 
   void handle_data(MessageEvent event) {
     var json = JSON.decode(event.data);
-    print(json);
+    //print(json);
     world.send_event(json['EVENT_TYPE'], json);
   }
 

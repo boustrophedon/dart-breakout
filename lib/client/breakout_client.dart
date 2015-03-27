@@ -13,6 +13,7 @@ import 'package:entity_component/entity_component_common.dart';
 
 part 'src/systems/TestSystem.dart';
 part 'src/systems/RenderSystem.dart';
+part 'src/systems/AudioSystem.dart';
 part 'src/systems/InputSystem.dart';
 part 'src/systems/EntitySpawnSystem.dart';
 part 'src/systems/PlayerManagementSystem.dart';
@@ -43,6 +44,7 @@ BreakoutClientWorld create_client_world() {
     //world.register_system(new EntitySpawnSystem(world));
     world.register_system(new ClientNetworkSystem(world));
     world.register_system(new RenderSystem(world));
+    world.register_system(new AudioSystem(world));
     world.register_system(new InputSystem(world));
     world.register_system(new PaddleMoveSystem(world));
     world.register_system(new BallMoveSystem(world));
