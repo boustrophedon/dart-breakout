@@ -19,6 +19,7 @@ part 'src/systems/PowerUpManagementSystem.dart';
 part 'src/systems/PaddleMoveSystem.dart';
 part 'src/systems/VelocityMoveSystem.dart';
 part 'src/systems/CollisionSystem.dart';
+part 'src/systems/ChatSystem.dart';
 part 'src/systems/ServerNetworkSystem.dart';
 
 class BreakoutServerWorld extends ServerWorld {
@@ -38,6 +39,7 @@ ServerWorld create_server_world() {
     world.register_system(new PaddleMoveSystem(world));
     world.register_system(new VelocityMoveSystem(world));
     world.register_system(new CollisionSystem(world));
+    world.register_system(new ChatSystem(world));
 
     return world;
 }

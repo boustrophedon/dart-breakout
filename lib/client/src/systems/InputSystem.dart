@@ -1,12 +1,13 @@
 part of breakout_client;
 
-Map control_map = {
-  KeyCode.LEFT: 'Left',
-  KeyCode.RIGHT: 'Right'
-};
 
 class InputSystem extends System {
   CanvasElement canvas;
+
+  Map control_map;
+  Map <int, List<Function>> playing_control_map;
+  Map <int, List<Function>> typing_control_map;
+  Map <int, List<Function>> ui_control_map;
 
   InputSystem(BreakoutClientWorld world) : super(world) { components_wanted = null; }
 
@@ -15,6 +16,22 @@ class InputSystem extends System {
 
     window.onKeyDown.listen(register_keydown);
     window.onKeyUp.listen(register_keyup);
+
+    playing_control_map = {
+      KeyCode.LEFT: [moveLeft, stopLeft],
+      KeyCode.RIGHT: [moveRight, stopRight],
+      KeyCode.T: [openChat, null],
+    };
+
+    typing_control_map = {
+      KeyCode.ESC: [closeChat, null],
+      KeyCode.ENTER: [sendChat, null],
+    };
+
+    ui_control_map = {
+    };
+
+    control_map = playing_control_map;
 
     // replace the window mousedown/move and touchstart/move with canvas
     // mouseup and touchend should fire regardless of where they end.
@@ -73,19 +90,56 @@ class InputSystem extends System {
   //  }
   //}
 
+  void moveLeft() {
+    int player = world.tagged_entities['player'];
+    if (player != null) {
+      world.send_event("MoveLeft", {'paddle': player});
+    }
+  }
+  void stopLeft() {
+    int player = world.tagged_entities['player'];
+    if (player != null) {
+      world.send_event("StopLeft", {'paddle': player});
+    }
+  }
+  void moveRight() {
+    int player = world.tagged_entities['player'];
+    if (player != null) {
+      world.send_event("MoveRight", {'paddle': player});
+    }
+  }
+  void stopRight() {
+    int player = world.tagged_entities['player'];
+    if (player != null) {
+      world.send_event("StopRight", {'paddle': player});
+    }
+  }
+  void openChat() {
+    world.input_mode = InputMode.Typing;
+    control_map = typing_control_map;
+    world.send_event("OpenChat", {});
+  }
+  void closeChat() {
+    world.input_mode = InputMode.Playing;
+    control_map = playing_control_map;
+    world.send_event("CloseChat", {});
+  }
+
+  void sendChat() {
+    world.send_event("SendChatMessage", {});
+  }
+
   void register_keydown(KeyboardEvent e) {
     if (control_map.containsKey(e.keyCode)) {
-      int player = world.tagged_entities['player'];
-      if (player != null) {
-        world.send_event("Move"+control_map[e.keyCode], {'paddle': player});
+      if (control_map[e.keyCode][0] != null) {
+        control_map[e.keyCode][0]();
       }
     }
   }
   void register_keyup(KeyboardEvent e) {
     if (control_map.containsKey(e.keyCode)) {
-      int player = world.tagged_entities['player'];
-      if (player != null) {
-        world.send_event("Stop"+control_map[e.keyCode], {'paddle': player});
+      if (control_map[e.keyCode][1] != null) {
+        control_map[e.keyCode][1]();
       }
     }
   }
