@@ -25,6 +25,9 @@ class InputSystem extends System {
     window.onKeyDown.listen(register_keydown);
     window.onKeyUp.listen(register_keyup);
     canvas.onMouseMove.listen(register_mousemove);
+    canvas.onTouchStart.listen(register_touchstart);
+    canvas.onTouchMove.listen(register_touchmove);
+    //window.onTouchEnd.listen(register_touchend);
 
     playing_control_map = {
       KeyCode.LEFT: [moveLeft, stopLeft],
@@ -52,9 +55,6 @@ class InputSystem extends System {
     // also, need to actually add the mousemove/touchmove handlers
     //canvas.onMouseDown.listen(register_mousedown);
     //window.onMouseUp.listen(register_mouseup);
-    //canvas.onTouchStart.listen(register_touchstart);
-    //canvas.onTouchMove.listen(register_touchmove);
-    //window.onTouchEnd.listen(register_touchend);
 
     //window.onDeviceMotion.listen(register_devicemotion);
 
@@ -71,20 +71,6 @@ class InputSystem extends System {
   //}
   //void register_mouseup(MouseEvent e) {
   //  int x = e.client.x-canvas.offsetLeft; int y = e.client.y-canvas.offsetTop;
-  //}
-  //void register_touchstart(TouchEvent e) {
-  //  e.preventDefault();
-  //  if (e.touches.length > 0) {
-  //    Touch t = e.touches.first;
-  //    int x = t.client.x-canvas.offsetLeft; int y = t.client.y-canvas.offsetTop;
-  //  }
-  //}
-  //void register_touchmove(TouchEvent e) {
-  //  e.preventDefault();
-  //  if (e.touches.length > 0) {
-  //    Touch t = e.touches.first;
-  //    int x = t.client.x-canvas.offsetLeft; int y = t.client.y-canvas.offsetTop;
-  //  }
   //}
   //void register_touchend(TouchEvent e) {
   //  e.preventDefault();
@@ -163,6 +149,26 @@ class InputSystem extends System {
     int x = e.client.x-canvas.offsetLeft; int y = e.client.y-canvas.offsetTop;
     if (control_map.containsKey(MOUSE_MOVE)) {
       control_map[MOUSE_MOVE][0](x, y);
+    }
+  }
+  void register_touchstart(TouchEvent e) {
+    e.preventDefault();
+    if (e.touches.length > 0) {
+      Touch t = e.touches.first;
+      int x = t.client.x-canvas.offsetLeft; int y = t.client.y-canvas.offsetTop;
+      if (control_map.containsKey(TOUCH_START)) {
+        control_map[TOUCH_START][0](x, y);
+      }
+    }
+  }
+  void register_touchmove(TouchEvent e) {
+    e.preventDefault();
+    if (e.touches.length > 0) {
+      Touch t = e.touches.first;
+      int x = t.client.x-canvas.offsetLeft; int y = t.client.y-canvas.offsetTop;
+      if (control_map.containsKey(TOUCH_MOVE)) {
+        control_map[TOUCH_MOVE][0](x, y);
+      }
     }
   }
 
