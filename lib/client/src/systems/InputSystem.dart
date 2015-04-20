@@ -127,6 +127,7 @@ class InputSystem extends System {
 
   void sendChat() {
     world.send_event("SendChatMessage", {});
+    closeChat();
   }
 
   void register_keydown(KeyboardEvent e) {
