@@ -4,6 +4,14 @@ part of breakout_client;
 class InputSystem extends System {
   CanvasElement canvas;
 
+  static const int MOUSE_MOVE = -1;
+  static const int MOUSE_DOWN = -2;
+  static const int MOUSE_UP = -3;
+
+  static const int TOUCH_MOVE = -4;
+  static const int TOUCH_START = -5;
+  static const int TOUCH_END = -6;
+
   Map control_map;
   Map <int, List<Function>> playing_control_map;
   Map <int, List<Function>> typing_control_map;
@@ -16,11 +24,15 @@ class InputSystem extends System {
 
     window.onKeyDown.listen(register_keydown);
     window.onKeyUp.listen(register_keyup);
+    canvas.onMouseMove.listen(register_mousemove);
 
     playing_control_map = {
       KeyCode.LEFT: [moveLeft, stopLeft],
       KeyCode.RIGHT: [moveRight, stopRight],
       KeyCode.T: [openChat, null],
+      MOUSE_MOVE: [moveTo, null],
+      TOUCH_START: [moveTo, null],
+      TOUCH_MOVE: [moveTo, null],
     };
 
     typing_control_map = {
@@ -39,7 +51,6 @@ class InputSystem extends System {
     // in the parameters. it is not necessary though; I think I can just use Event or UIEvent.
     // also, need to actually add the mousemove/touchmove handlers
     //canvas.onMouseDown.listen(register_mousedown);
-    //canvas.onMouseMove.listen(register_mousemove);
     //window.onMouseUp.listen(register_mouseup);
     //canvas.onTouchStart.listen(register_touchstart);
     //canvas.onTouchMove.listen(register_touchmove);
@@ -56,9 +67,6 @@ class InputSystem extends System {
   // I think/it seems you can add window.scrollX and window.scrollY if you care
 
   //void register_mousedown(MouseEvent e) {
-  //  int x = e.client.x-canvas.offsetLeft; int y = e.client.y-canvas.offsetTop;
-  //}
-  //void register_mousemove(MouseEvent e) {
   //  int x = e.client.x-canvas.offsetLeft; int y = e.client.y-canvas.offsetTop;
   //}
   //void register_mouseup(MouseEvent e) {
@@ -89,6 +97,13 @@ class InputSystem extends System {
   //    }
   //  }
   //}
+  
+  void moveTo(int x, int y) {
+    int player = world.tagged_entities['player'];
+    if (player != null) {
+      world.send_event("MoveTo", {'paddle': player, 'x':x});
+    }
+  }
 
   void moveLeft() {
     int player = world.tagged_entities['player'];
@@ -142,6 +157,12 @@ class InputSystem extends System {
       if (control_map[e.keyCode][1] != null) {
         control_map[e.keyCode][1]();
       }
+    }
+  }
+  void register_mousemove(MouseEvent e) {
+    int x = e.client.x-canvas.offsetLeft; int y = e.client.y-canvas.offsetTop;
+    if (control_map.containsKey(MOUSE_MOVE)) {
+      control_map[MOUSE_MOVE][0](x, y);
     }
   }
 

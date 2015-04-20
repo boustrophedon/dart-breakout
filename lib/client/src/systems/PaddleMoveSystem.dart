@@ -15,6 +15,7 @@ class PaddleMoveSystem extends System {
   }
   void initialize() {
     canvas = world.canvas;
+    world.subscribe_event("MoveTo", move_to);
     world.subscribe_event("MoveLeft", move_left);
     world.subscribe_event("MoveRight", move_right);
     world.subscribe_event("StopLeft", stop_left);
@@ -41,6 +42,14 @@ class PaddleMoveSystem extends System {
       pos.x = event['position'][0];
       pos.y = event['position'][1];
     }
+  }
+
+  void move_to(Map event) {
+    int e = event['paddle'];
+    Position pos = pos_mapper.get_component(e);
+    Size size = size_mapper.get_component(e);
+
+    pos.x = check_bound(event['x']-size.width~/2, size.width, canvas.width);
   }
 
   void move_left(Map event) {
