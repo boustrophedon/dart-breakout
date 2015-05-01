@@ -3,6 +3,8 @@ part of breakout_client;
 class AudioSystem extends System {
   LinkedHashMap<String, AudioElement> sounds;
 
+  bool muted = false;
+
   AudioSystem(BreakoutClientWorld world) : super(world) {
     components_wanted = null;
     sounds = new LinkedHashMap<String, AudioElement>();
@@ -11,6 +13,7 @@ class AudioSystem extends System {
   void initialize() {
     load_sounds();
     register_sounds();
+    world.subscribe_event("ToggleMute", (e){muted = !muted;});
   }
 
   void load_sounds() {
@@ -30,6 +33,8 @@ class AudioSystem extends System {
   }
 
   void play_sound(Map event) {
-    sounds[event["EVENT_TYPE"]].play();
+    if (!muted) {
+      sounds[event["EVENT_TYPE"]].play();
+    }
   }
 }

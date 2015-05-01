@@ -12,10 +12,11 @@ class InputSystem extends System {
   static const int TOUCH_START = -5;
   static const int TOUCH_END = -6;
 
-  Map control_map;
-  Map <int, List<Function>> playing_control_map;
-  Map <int, List<Function>> typing_control_map;
-  Map <int, List<Function>> ui_control_map;
+  Map<int, List<Function>> control_map;
+
+  static Map<int, List<Function>> playing_control_map;
+  static Map<int, List<Function>> typing_control_map;
+  static Map<int, List<Function>> ui_control_map;
 
   InputSystem(BreakoutClientWorld world) : super(world) { components_wanted = null; }
 
@@ -33,6 +34,7 @@ class InputSystem extends System {
       KeyCode.LEFT: [moveLeft, stopLeft],
       KeyCode.RIGHT: [moveRight, stopRight],
       KeyCode.T: [openChat, null],
+      KeyCode.M: [toggleMuteAudio, null],
       MOUSE_MOVE: [moveTo, null],
       TOUCH_START: [moveTo, null],
       TOUCH_MOVE: [moveTo, null],
@@ -117,6 +119,10 @@ class InputSystem extends System {
   }
   void openChat() {
     world.input_mode = InputMode.Typing;
+    // if i have a bunch of key events queued (somehow)
+    // and one of them changes the input type (like opening chat)
+    // then the keys typed after that ideally should be for chat inputs
+    // so we can't wait for 1 frame delay until process() gets run below
     control_map = typing_control_map;
     world.send_event("OpenChat", {});
   }
@@ -125,10 +131,13 @@ class InputSystem extends System {
     control_map = playing_control_map;
     world.send_event("CloseChat", {});
   }
-
   void sendChat() {
     world.send_event("SendChatMessage", {});
     closeChat();
+  }
+
+  void toggleMuteAudio() {
+    world.send_event("ToggleMute", {});
   }
 
   void register_keydown(KeyboardEvent e) {
@@ -172,6 +181,18 @@ class InputSystem extends System {
     }
   }
 
-  void process_entity(int entity) {}
+  void process() {
+    switch (world.input_mode) {
+      case InputMode.Playing:
+        control_map = playing_control_map;
+        break;
+      case InputMode.Typing:
+        control_map = typing_control_map;
+        break;
+      case InputMode.UI:
+        control_map = ui_control_map;
+        break;
+    }
+  }
   void remove_entity(int e) {}
 }
