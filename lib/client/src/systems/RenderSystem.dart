@@ -7,7 +7,7 @@ class RenderSystem extends System {
 
   LinkedHashMap<String, Renderer> renderers;
 
-  ComponentMapper<Renderable> rend_mapper;
+  ComponentMapper rend_mapper;
 
   RenderSystem(BreakoutClientWorld world) : super(world) {
     renderers = new Map<String, Renderer>();

@@ -22,13 +22,13 @@ class ClientNetworkSystem extends System {
 
   void init_websocket() {
     ws = new WebSocket(server);
-    ws.onOpen.listen((e) {print("connected to server");world.send_event("ServerConnected", {});});
+    ws.onOpen.listen((e) {print("connected to server");world.send_event("ServerConnected", <String, Object>{});});
     ws.onMessage.listen(handle_data);
     ws.onClose.listen((e) => print("connection to server lost"));
   }
 
   void handle_connect(Map event) {
-    world.send_event("RequestNewPlayer", {});
+    world.send_event("RequestNewPlayer", <String, Object>{});
   }
 
   void handle_ack(Map event) {
@@ -37,13 +37,13 @@ class ClientNetworkSystem extends System {
   }
 
   void handle_data(MessageEvent event) {
-    var json = JSON.decode(event.data);
+    var msg = json.decode(event.data);
     //print(json);
-    world.send_event(json['EVENT_TYPE'], json);
+    world.send_event(msg['EVENT_TYPE'], msg);
   }
 
   void transmit_event(Map event) {
-    ws.send(JSON.encode(event));
+    ws.send(json.encode(event));
   }
 
   void process_entity(int entity) {}

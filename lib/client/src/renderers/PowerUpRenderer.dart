@@ -1,9 +1,9 @@
 part of breakout_client;
 
 class PowerUpRenderer extends Renderer {
-  ComponentMapper<Position> pos_map;
-  ComponentMapper<Size> size_map;
-  ComponentMapper<Color> color_map;
+  ComponentMapper pos_map;
+  ComponentMapper size_map;
+  ComponentMapper color_map;
   PowerUpRenderer(CanvasElement canv, CanvasRenderingContext2D ctx, Map mappers) : super(canv, ctx) {
     pos_map = mappers[Position];
     size_map = mappers[Size];

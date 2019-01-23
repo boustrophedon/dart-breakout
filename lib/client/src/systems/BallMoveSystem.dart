@@ -3,9 +3,9 @@ part of breakout_client;
 class BallMoveSystem extends System {
   static final Rectangle area = const Rectangle(0,0,720,720);
 
-  ComponentMapper<Position> pos_mapper;
-  ComponentMapper<Velocity> vel_mapper;
-  ComponentMapper<Size> size_mapper;
+  ComponentMapper pos_mapper;
+  ComponentMapper vel_mapper;
+  ComponentMapper size_mapper;
 
   BallMoveSystem(BreakoutClientWorld world) : super(world) {
     components_wanted = new Set.from([Ball,Position,Velocity]);

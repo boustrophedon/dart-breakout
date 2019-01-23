@@ -3,9 +3,9 @@ part of breakout_server;
 class CollisionSystem extends System {
   static final Rectangle area = const Rectangle(0,0,720,720);
 
-  ComponentMapper<Position> pos_mapper;
-  ComponentMapper<Velocity> vel_mapper;
-  ComponentMapper<Size> size_mapper;
+  ComponentMapper pos_mapper;
+  ComponentMapper vel_mapper;
+  ComponentMapper size_mapper;
 
   CollisionSystem(BreakoutServerWorld world) : super(world) {
     components_wanted = new Set.from([Collidable,Position,Size]);
@@ -33,23 +33,23 @@ class CollisionSystem extends System {
     if (pos.x-size.width < 0) {
       pos.x = 0.0+size.width;
       vel.x = -vel.x;
-      world.send_event("WallBounce", {});
+      world.send_event("WallBounce", <String, Object>{});
     }
     else if (pos.x+size.width > area.right) {
       pos.x = (area.right-size.width).toDouble();
       vel.x = -vel.x;
-      world.send_event("WallBounce", {});
+      world.send_event("WallBounce", <String, Object>{});
     }
     else if (pos.y+size.height > area.bottom) {
       pos.y = (area.bottom-size.height).toDouble();
       vel.y = 0.0;
       vel.x = 0.0;
-      world.send_event("BallDeath", {'ball':e});
+      world.send_event("BallDeath", <String, Object>{'ball':e});
     }
     else if (pos.y-size.height < 0) {
       pos.y = 0.0+size.height;
       vel.y = -vel.y;
-      world.send_event("WallBounce", {});
+      world.send_event("WallBounce", <String, Object>{});
     }
     else {
       for (int other in entities) {
@@ -58,14 +58,14 @@ class CollisionSystem extends System {
           if (world.entities[other].contains(Paddle)) {
             collided = ball_paddle_collision(e, other);
             if (collided == true) {
-              world.send_event("PaddleBounce", {'paddle':other, 'ball':e});
+              world.send_event("PaddleBounce", <String, Object>{'paddle':other, 'ball':e});
               break;
             }
           }
           else if (world.entities[other].contains(Brick)) {
             collided = ball_brick_collision(e, other);
             if (collided == true) {
-              world.send_event("BrickBounce", {'brick':other});
+              world.send_event("BrickBounce", <String, Object>{'brick':other});
               // maybe slightly redundant, but perhaps i'll have bricks that take multiple hits to break in the future
               // currently the code just emits a break event when a brick gets hit though...
               break;
@@ -189,7 +189,7 @@ class CollisionSystem extends System {
 
         ball_vel.y = -ball_vel.y;
       }
-      world.send_event("BrickBreak", {'brick':brick});
+      world.send_event("BrickBreak", <String, Object>{'brick':brick});
       return true;
     }
     else {
@@ -201,7 +201,7 @@ class CollisionSystem extends System {
     Position pos = pos_mapper.get_component(e);
     Size size = size_mapper.get_component(e);
     if (pos.y+size.height > area.bottom) {
-      world.send_event("PowerUpDeath",{'powerup':e});
+      world.send_event("PowerUpDeath", <String, Object>{'powerup':e});
     }
     else {
       List<int> colliders = new List<int>();
@@ -214,10 +214,10 @@ class CollisionSystem extends System {
         }
       }
       for (int paddle in colliders) {
-        world.send_event("PowerUpCollision", {'powerup':e, 'paddle':paddle});
+        world.send_event("PowerUpCollision", <String, Object>{'powerup':e, 'paddle':paddle});
       }
       if (colliders.isNotEmpty) {
-        world.send_event("PowerUpDeath", {'powerup':e});
+        world.send_event("PowerUpDeath", <String, Object>{'powerup':e});
       }
     }
   }

@@ -7,10 +7,10 @@ class PlayerManagementSystem extends System {
   static final int PADDLE_WIDTH = 80;
   static final int PADDLE_HEIGHT = 20;
 
-  ComponentMapper<Position> posmap;
-  ComponentMapper<Size> sizemap;
-  ComponentMapper<Color> colormap;
-  ComponentMapper<Paddle> paddlemap;
+  ComponentMapper posmap;
+  ComponentMapper sizemap;
+  ComponentMapper colormap;
+  ComponentMapper paddlemap;
 
   PlayerManagementSystem(BreakoutServerWorld world) : super(world) {
     components_wanted = new Set.from([Paddle,]);
@@ -44,7 +44,7 @@ class PlayerManagementSystem extends System {
     world.add_to_world(paddle);
 
     client_player_map[event['client_id']] = paddle;
-    world.send_event("NewPlayerCreated", {'entity':paddle, 'paddle_id':event['client_id'], 'position':[x,680.0], 'size':[PADDLE_WIDTH,PADDLE_HEIGHT], 'color':color});
+    world.send_event("NewPlayerCreated", <String, Object>{'entity':paddle, 'paddle_id':event['client_id'], 'position':[x,680.0], 'size':[PADDLE_WIDTH,PADDLE_HEIGHT], 'color':color});
   }
   
   void send_current_players(int client_id) {
@@ -53,7 +53,7 @@ class PlayerManagementSystem extends System {
       var size = sizemap.get_component(e);
       var color = colormap.get_component(e);
       var paddle = paddlemap.get_component(e);
-      world.send_event("NewPlayerCreated", {'Clients':[client_id,], 
+      world.send_event("NewPlayerCreated", <String, Object>{'Clients':[client_id,], 
         'entity':e,
         'color':color.color,
         'paddle_id':paddle.paddle_id,
@@ -66,19 +66,18 @@ class PlayerManagementSystem extends System {
   // i don't really like this either.
   void handle_bounce(Map event) {
     var paddle = paddlemap.get_component(event['paddle']);
-    var ball = world.component_mappers[Ball].get_component(event['ball']);
     if (paddle.powerups.contains("EnlargeBall")) {
       var ballsize = world.component_mappers[Size].get_component(event['ball']);
       ballsize.width = ballsize.width*2;
       ballsize.height = ballsize.height*2;
-      world.send_event("ServerBallUpdate", {'ball':event['ball'], 'size':[ballsize.width, ballsize.height]});
+      world.send_event("ServerBallUpdate", <String, Object>{'ball':event['ball'], 'size':[ballsize.width, ballsize.height]});
       paddle.powerups.remove("EnlargeBall");
     }
     else if (paddle.powerups.contains("ShrinkBall")) {
       var ballsize = world.component_mappers[Size].get_component(event['ball']);
       ballsize.width = ballsize.width~/2;
       ballsize.height = ballsize.height~/2;
-      world.send_event("ServerBallUpdate", {'ball':event['ball'], 'size':[ballsize.width, ballsize.height]});
+      world.send_event("ServerBallUpdate", <String, Object>{'ball':event['ball'], 'size':[ballsize.width, ballsize.height]});
       paddle.powerups.remove("ShrinkBall");
     }
   }
@@ -87,17 +86,17 @@ class PlayerManagementSystem extends System {
     if (paddle.powerups.contains("EnlargePaddle")) {
       var paddlesize = world.component_mappers[Size].get_component(e);
       paddlesize.width = paddlesize.width*2;
-      world.send_event("ServerPaddleUpdate", {'paddle':e, 'size':[paddlesize.width, paddlesize.height]});
+      world.send_event("ServerPaddleUpdate", <String, Object>{'paddle':e, 'size':[paddlesize.width, paddlesize.height]});
       paddle.powerups.remove("EnlargePaddle");
     }
     else if (paddle.powerups.contains("ShrinkPaddle")) {
       var paddlesize = world.component_mappers[Size].get_component(e);
       paddlesize.width = paddlesize.width~/2;
-      world.send_event("ServerPaddleUpdate", {'paddle':e, 'size':[paddlesize.width, paddlesize.height]});
+      world.send_event("ServerPaddleUpdate", <String, Object>{'paddle':e, 'size':[paddlesize.width, paddlesize.height]});
       paddle.powerups.remove("ShrinkPaddle");
     }
     else if (paddle.powerups.contains("ExtraBall")) {
-      world.send_event("RequestNewBall", {}); // this is the right way to do it. just send an event.
+      world.send_event("RequestNewBall", <String, Object>{}); // this is the right way to do it. just send an event.
       paddle.powerups.remove("ExtraBall");
     }
   }
@@ -106,7 +105,7 @@ class PlayerManagementSystem extends System {
     if (client_player_map[event['client_id']] == null) {
       return;
     }
-    world.send_event("PlayerLeft", {'player':client_player_map[event['client_id']]});
+    world.send_event("PlayerLeft", <String, Object>{'player':client_player_map[event['client_id']]});
     world.remove_entity(client_player_map[event['client_id']]);
     client_player_map.remove(event['client_id']);
   }

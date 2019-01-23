@@ -1,9 +1,9 @@
 part of breakout_client;
 
 class RectRenderer extends Renderer {
-  ComponentMapper<Position> pos_mapper;
-  ComponentMapper<Color> color_mapper;
-  ComponentMapper<Size> size_mapper;
+  ComponentMapper pos_mapper;
+  ComponentMapper color_mapper;
+  ComponentMapper size_mapper;
   RectRenderer(CanvasElement canv, CanvasRenderingContext2D ctx, Map mappers) : super(canv, ctx) {
     pos_mapper = mappers[Position];
     color_mapper = mappers[Color];

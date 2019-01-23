@@ -1,5 +1,4 @@
 import 'package:dart_breakout/client/breakout_client.dart';
-import 'package:entity_component/entity_component_client.dart';
 
 import 'dart:html';
 

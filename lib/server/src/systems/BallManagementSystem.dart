@@ -7,9 +7,9 @@ class BallManagementSystem extends System {
 
   Random rng = new Random();
 
-  ComponentMapper<Position> posmap;
-  ComponentMapper<Velocity> velmap;
-  ComponentMapper<Size> sizemap;
+  ComponentMapper posmap;
+  ComponentMapper velmap;
+  ComponentMapper sizemap;
 
   bool spawning = false;
   BallManagementSystem(BreakoutServerWorld world) : super(world) {
@@ -36,7 +36,7 @@ class BallManagementSystem extends System {
     int ball = world.new_entity();
     double x = (rng.nextInt(area.width-40)+20).toDouble();
     double y = 200.0;
-    double theta = 0.5*PI*rng.nextDouble()+0.25*PI;
+    double theta = 0.5*pi*rng.nextDouble()+0.25*pi;
     world.add_component(ball, new Position(x,y));
     world.add_component(ball, new Velocity(4*cos(theta), 6*sin(theta)));
     world.add_component(ball, new Ball());
@@ -44,7 +44,7 @@ class BallManagementSystem extends System {
     world.add_component(ball, new Collidable());
 
     world.add_to_world(ball);
-    world.send_event("NewBallCreated", {'entity':ball, 'position':[x,y], 'velocity':[4*cos(theta), 6*sin(theta)], 'size':[BALL_SIZE,BALL_SIZE]});
+    world.send_event("NewBallCreated", <String, Object>{'entity':ball, 'position':[x,y], 'velocity':[4*cos(theta), 6*sin(theta)], 'size':[BALL_SIZE,BALL_SIZE]});
   }
 
   void handle_newplayer(Map event) {
@@ -52,7 +52,7 @@ class BallManagementSystem extends System {
       var pos = posmap.get_component(e);
       var vel = velmap.get_component(e);
       var size = sizemap.get_component(e);
-      world.send_event("NewBallCreated", {'Clients':[event['client_id'],],
+      world.send_event("NewBallCreated", <String, Object>{'Clients':[event['client_id'],],
         'entity':e,
         'position':[pos.x, pos.y],
         'velocity':[vel.x, vel.y],

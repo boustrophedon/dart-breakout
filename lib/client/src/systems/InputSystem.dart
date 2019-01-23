@@ -89,32 +89,32 @@ class InputSystem extends System {
   void moveTo(int x, int y) {
     int player = world.tagged_entities['player'];
     if (player != null) {
-      world.send_event("MoveTo", {'paddle': player, 'x':x});
+      world.send_event("MoveTo", <String, Object>{'paddle': player, 'x':x});
     }
   }
 
   void moveLeft() {
     int player = world.tagged_entities['player'];
     if (player != null) {
-      world.send_event("MoveLeft", {'paddle': player});
+      world.send_event("MoveLeft", <String, Object>{'paddle': player});
     }
   }
   void stopLeft() {
     int player = world.tagged_entities['player'];
     if (player != null) {
-      world.send_event("StopLeft", {'paddle': player});
+      world.send_event("StopLeft", <String, Object>{'paddle': player});
     }
   }
   void moveRight() {
     int player = world.tagged_entities['player'];
     if (player != null) {
-      world.send_event("MoveRight", {'paddle': player});
+      world.send_event("MoveRight", <String, Object>{'paddle': player});
     }
   }
   void stopRight() {
     int player = world.tagged_entities['player'];
     if (player != null) {
-      world.send_event("StopRight", {'paddle': player});
+      world.send_event("StopRight", <String, Object>{'paddle': player});
     }
   }
   void openChat() {
@@ -124,20 +124,20 @@ class InputSystem extends System {
     // then the keys typed after that ideally should be for chat inputs
     // so we can't wait for 1 frame delay until process() gets run below
     control_map = typing_control_map;
-    world.send_event("OpenChat", {});
+    world.send_event("OpenChat", <String, Object>{});
   }
   void closeChat() {
     world.input_mode = InputMode.Playing;
     control_map = playing_control_map;
-    world.send_event("CloseChat", {});
+    world.send_event("CloseChat", <String, Object>{});
   }
   void sendChat() {
-    world.send_event("SendChatMessage", {});
+    world.send_event("SendChatMessage", <String, Object>{});
     closeChat();
   }
 
   void toggleMuteAudio() {
-    world.send_event("ToggleMute", {});
+    world.send_event("ToggleMute", <String, Object>{});
   }
 
   void register_keydown(KeyboardEvent e) {

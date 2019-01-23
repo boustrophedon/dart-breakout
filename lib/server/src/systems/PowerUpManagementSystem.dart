@@ -5,9 +5,9 @@ class PowerUpManagementSystem extends System {
   static int POWERUP_WIDTH = 60;
   static int POWERUP_HEIGHT = 15;
 
-  ComponentMapper<Position> posmap;
-  ComponentMapper<Velocity> velmap;
-  ComponentMapper<PowerUp> powermap;
+  ComponentMapper posmap;
+  ComponentMapper velmap;
+  ComponentMapper powermap;
 
   PowerUpManagementSystem(BreakoutServerWorld world) : super(world) {
     components_wanted = new Set.from([PowerUp,]);
@@ -35,7 +35,7 @@ class PowerUpManagementSystem extends System {
     world.add_component(powerup, new Collidable());
 
     world.add_to_world(powerup);
-   world.send_event("NewPowerUpCreated", {'entity':powerup, 'position':[x,y], 'velocity':[0.0, 4.0], 'powerup':event['powerup'], 'size':[POWERUP_WIDTH,POWERUP_HEIGHT], 'color':"#00FFAA"});
+   world.send_event("NewPowerUpCreated", <String, Object>{'entity':powerup, 'position':[x,y], 'velocity':[0.0, 4.0], 'powerup':event['powerup'], 'size':[POWERUP_WIDTH,POWERUP_HEIGHT], 'color':"#00FFAA"});
   }
 
   void handle_newplayer(Map event) {
@@ -43,7 +43,7 @@ class PowerUpManagementSystem extends System {
       var pos = posmap.get_component(e);
       var vel = velmap.get_component(e);
       var power = powermap.get_component(e);
-      world.send_event("NewPowerUpCreated", {'Clients':[event['client_id'],] ,
+      world.send_event("NewPowerUpCreated", <String, Object>{'Clients':[event['client_id'],] ,
         'entity':e,
         'position':[pos.x, pos.y],
         'velocity':[vel.x, vel.y],

@@ -3,15 +3,15 @@ part of breakout_server;
 class BrickManagementSystem extends System {
   static final Rectangle area = const Rectangle(0,0,720,720);
 
-  ComponentMapper<Position> posmap;
-  ComponentMapper<Color> colormap;
+  ComponentMapper posmap;
+  ComponentMapper colormap;
 
   Random rng = new Random();
 
   int BRICK_WIDTH = 60;
   int BRICK_HEIGHT = 20;
 
-  static const double POWERUP_PROBABILITY = 0.4;
+  static const double POWERUP_PROBABILITY = 0.5;
 
   static const String BRICK_COLOR = 'rgba(0, 0, 255, 1.0)';
 
@@ -45,7 +45,7 @@ class BrickManagementSystem extends System {
     }
 
     world.add_to_world(brick);
-    world.send_event("NewBrickCreated", {'entity':brick, 'position':[x,y], 'size':[BRICK_WIDTH,BRICK_HEIGHT], 'color':BRICK_COLOR});
+    world.send_event("NewBrickCreated", <String, Object>{'entity':brick, 'position':[x,y], 'size':[BRICK_WIDTH,BRICK_HEIGHT], 'color':BRICK_COLOR});
   }
 
   void spawn_new_row() {
@@ -53,7 +53,7 @@ class BrickManagementSystem extends System {
     for (int e in entities) {
       Position pos = posmap.get_component(e);
       pos.y+=BRICK_HEIGHT+5;
-      world.send_event("ServerBrickUpdate", {'brick':e, 'position':[pos.x, pos.y], 'size':[BRICK_WIDTH, BRICK_HEIGHT], 'color':BRICK_COLOR});
+      world.send_event("ServerBrickUpdate", <String, Object>{'brick':e, 'position':[pos.x, pos.y], 'size':[BRICK_WIDTH, BRICK_HEIGHT], 'color':BRICK_COLOR});
     }
     for (int i = 0; i<area.right~/(BRICK_WIDTH+5); i++) {
       spawn_new_brick(5+i*(BRICK_WIDTH+5).toDouble(), 5.0);
@@ -64,7 +64,7 @@ class BrickManagementSystem extends System {
     for (int e in entities) {
       var pos = posmap.get_component(e);
       var color = colormap.get_component(e);
-      world.send_event("NewBrickCreated", {'Clients':[event['client_id'],],
+      world.send_event("NewBrickCreated", <String, Object>{'Clients':[event['client_id'],],
         'entity':e,
         'position':[pos.x, pos.y],
         'size':[BRICK_WIDTH,BRICK_HEIGHT],
@@ -78,7 +78,7 @@ class BrickManagementSystem extends System {
     var brick_c = world.component_mappers[Brick].get_component(brick);
     if (brick_c.powerup != null) {
       var pos = posmap.get_component(brick);
-      world.send_event('DropPowerUp', {'position':[pos.x, pos.y], 'powerup':brick_c.powerup});
+      world.send_event('DropPowerUp', <String, Object>{'position':[pos.x, pos.y], 'powerup':brick_c.powerup});
     }
 
     world.remove_entity(brick);

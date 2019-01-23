@@ -3,9 +3,9 @@ part of breakout_server;
 class PaddleMoveSystem extends System {
   static final Rectangle area = const Rectangle(0,0,720,720);
 
-  ComponentMapper<Position> pos_mapper;
-  ComponentMapper<Size> size_mapper;
-  ComponentMapper<Paddle> paddle_mapper;
+  ComponentMapper pos_mapper;
+  ComponentMapper size_mapper;
+  ComponentMapper paddle_mapper;
 
   PaddleMoveSystem(BreakoutServerWorld world) : super(world) {
     components_wanted = new Set.from([Paddle,Position]);
@@ -28,11 +28,11 @@ class PaddleMoveSystem extends System {
     Position pos = pos_mapper.get_component(e);
     Size size = size_mapper.get_component(e);
 
-    List<double> newpos = event['position'];
-    pos.x = check_bound(newpos[0], size.width, area.width);
-    pos.y = check_bound(newpos[1], size.height, area.height);
+    var newpos = event['position'];
+    pos.x = check_bound(newpos[0].toDouble(), size.width, area.width);
+    pos.y = check_bound(newpos[1].toDouble(), size.height, area.height);
 
-    world.send_event("ServerPaddleUpdate", {'entity':e, 'position':[pos.x, pos.y], 'size':[size.width, size.height]});
+    world.send_event("ServerPaddleUpdate", <String, Object>{'entity':e, 'position':[pos.x, pos.y], 'size':[size.width, size.height]});
   }
   double check_bound(double left, int size, num smax) {
     if (left < 0) {

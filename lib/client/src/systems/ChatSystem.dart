@@ -21,7 +21,7 @@ class ChatSystem extends System {
   }
   // CloseChat here? inputsystem can't ever send closechat when we're typing because the only time it would want to is when it's muted
   void handle_sendchat(Map event) {
-    world.send_event("ClientChatMessage", {'message':input.value});
+    world.send_event("ClientChatMessage", <String, Object>{'message':input.value});
     input.value = '';
   }
   void handle_closechat(Map event) {

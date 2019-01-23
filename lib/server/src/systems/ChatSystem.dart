@@ -22,6 +22,6 @@ class ChatSystem extends System {
 
   void handle_message(Map event) {
     int player_id = event['client_id'];
-    world.send_event("ServerChatMessage", {"message":"Player ${player_id}: "+sanitize_message(event['message'])});
+    world.send_event("ServerChatMessage", <String, Object>{"message":"Player ${player_id}: "+sanitize_message(event['message'])});
   }
 }

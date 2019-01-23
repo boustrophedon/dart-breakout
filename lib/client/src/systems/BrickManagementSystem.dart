@@ -3,9 +3,9 @@ part of breakout_client;
 class BrickManagementSystem extends System {
   static final Rectangle area = const Rectangle(0,0,720,720);
 
-  ComponentMapper<Color> color_mapper;
-  ComponentMapper<Position> pos_mapper;
-  ComponentMapper<Size> size_mapper;
+  ComponentMapper color_mapper;
+  ComponentMapper pos_mapper;
+  ComponentMapper size_mapper;
 
   BrickManagementSystem(BreakoutClientWorld world) : super(world) {
     components_wanted = new Set.from([Brick,]);

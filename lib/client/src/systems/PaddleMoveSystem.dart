@@ -3,9 +3,9 @@ part of breakout_client;
 class PaddleMoveSystem extends System {
   CanvasElement canvas;
 
-  ComponentMapper<Position> pos_mapper;
-  ComponentMapper<Velocity> vel_mapper;
-  ComponentMapper<Size> size_mapper;
+  ComponentMapper pos_mapper;
+  ComponentMapper vel_mapper;
+  ComponentMapper size_mapper;
 
   PaddleMoveSystem(BreakoutClientWorld world) : super(world) {
     components_wanted = new Set.from([Paddle,Position,Velocity]);
@@ -88,7 +88,7 @@ class PaddleMoveSystem extends System {
     double newy = pos.y+vel.y*world.dt;
     pos.x = check_bound(newx, size.width, canvas.width);
     pos.y = check_bound(newy, size.height, canvas.height);
-    world.send_event("ClientPaddleUpdate", {"entity":e, "position":[pos.x, pos.y]});
+    world.send_event("ClientPaddleUpdate", <String, Object>{"entity":e, "position":[pos.x, pos.y]});
   }
 
   double check_bound(double left, int size, num smax) {

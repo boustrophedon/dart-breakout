@@ -3,11 +3,11 @@ part of breakout_client;
 class PowerUpManagementSystem extends System {
   static final Rectangle area = const Rectangle(0,0,720,720);
 
-  ComponentMapper<PowerUp> powerup_mapper;
-  ComponentMapper<Position> pos_mapper;
-  ComponentMapper<Velocity> vel_mapper;
-  ComponentMapper<Size> size_mapper;
-  ComponentMapper<Color> color_mapper;
+  ComponentMapper powerup_mapper;
+  ComponentMapper pos_mapper;
+  ComponentMapper vel_mapper;
+  ComponentMapper size_mapper;
+  ComponentMapper color_mapper;
 
   PowerUpManagementSystem(BreakoutClientWorld world) : super(world) {
     components_wanted = new Set.from([PowerUp,]);
@@ -43,20 +43,11 @@ class PowerUpManagementSystem extends System {
     int e = event['powerup'];
     var pos = pos_mapper.get_component(e);
     var vel = vel_mapper.get_component(e);
-    var size = size_mapper.get_component(e);
-    var power = powerup_mapper.get_component(e);
 
     pos.x = event['position'][0];
     pos.y = event['position'][1];
     vel.x = event['velocity'][0];
     vel.y = event['velocity'][1];
-    if (event.containsKey('size')) {
-      size.width = event['size'][0];
-      size.height = event['size'][1];
-    }
-    if (event.containsKey('powerup')) {
-      power.powerup = event['powerup'];
-    }
   }
 
   void handle_death(Map event) {

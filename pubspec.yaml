@@ -4,10 +4,14 @@ description: dart breakout clone because
 author: Harry Stern <harry.stern@rutgers.edu>
 homepage: https://github.com/boustrophedon/dart-breakout
 environment:
-  sdk: ">=1.8.0"
+    sdk: '>=2.0.0 <3.0.0'
+
 dependencies:
-  browser: any
   entity_component:
-    git:
-      url: git://github.com/boustrophedon/entity-component-dart.git
-      ref: ng
+      git:
+        url: git://github.com/boustrophedon/entity-component-dart.git
+
+dev_dependencies:
+    build_runner: ^1.1.2
+    build_web_compilers: ^1.0.0
+
